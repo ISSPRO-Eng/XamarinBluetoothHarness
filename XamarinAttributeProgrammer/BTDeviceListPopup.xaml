@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:rg="http://rotorgames.com"
+             xmlns:viewmodels="clr-namespace:XamarinAttributeProgrammer.ViewModels"
+              x:DataType="viewmodels:BTDeviceListPopupViewModel"
+              x:Class="XamarinAttributeProgrammer.Views.BTDeviceListPopup"
+              CloseWhenBackgroundIsClicked="False">
+    <rg:PopupPage.Animation>
+        <rg:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="1.2"
+            DurationIn="200"
+            DurationOut="150"
+            HasBackgroundAnimation="True"/>
+    </rg:PopupPage.Animation>
+    <rg:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+            </Style>
+        </ResourceDictionary>
+    </rg:PopupPage.Resources>
+    <StackLayout
+        WidthRequest="300"
+        HeightRequest="600"
+        Margin="15"
+        Padding="5"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        BackgroundColor="{StaticResource Back}">
+        <Label Text="Available Devices" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" TextColor="{StaticResource White}"/>
+        <CollectionView x:Name="DeviceListView"
+                ItemsSource="{Binding AvailableDevices}"
+                SelectionMode="Single"
+                SelectionChanged="SelectedDevice_TappedAsync"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" x:DataType="viewmodels:Device">
+                        <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand"  FontSize="16" TextColor="{StaticResource White}"/>
+                        <Label Text="{Binding Description}" HorizontalOptions="StartAndExpand" FontSize="8" TextColor="{StaticResource White}"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Grid ColumnSpacing="5" HorizontalOptions="CenterAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="CancelBtn" Grid.Row="0" Grid.Column="0" HorizontalOptions="Fill" Clicked="Cancel_Clicked" Text="{Binding Cancel}"/>
+            <Button x:Name="ScanBtn" Grid.Row="0" Grid.Column="1" HorizontalOptions="Fill" Clicked="Rescan_ClickedAsync" Text="{Binding Scan}">
+                <Button.Triggers>
+                    <!--Binding doesn't work with popup, so we're adding in the cs-->
+                </Button.Triggers>
+            </Button>
+        </Grid>
+    </StackLayout>
+</rg:PopupPage>

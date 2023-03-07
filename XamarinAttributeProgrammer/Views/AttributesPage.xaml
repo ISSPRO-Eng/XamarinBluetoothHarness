@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:XamarinAttributeProgrammer.ViewModels"
+             x:DataType="viewmodels:AttributesViewModel"
+             x:Class="XamarinAttributeProgrammer.Views.AttributesPage"
+             BackgroundColor="{StaticResource Back}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryLbl" TargetType="Label">
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="TextColor" Value="{StaticResource White}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="TextColor" Value="{StaticResource White}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource BackDark}"/>
+                <Setter Property="Keyboard" Value="Numeric"/>
+            </Style>
+            <Style x:Key="SectionTitle" TargetType="Label">
+                <Setter Property="FontSize" Value="Title"/>
+                <Setter Property="HorizontalOptions" Value="Fill"/>
+                <Setter Property="Margin" Value="0,10,0,10"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="{StaticResource BackDark}"/>
+                <Setter Property="ItemsSource" Value="{Binding zones}"/>
+                <Setter Property="SelectedIndex" Value="0"/>
+            </Style>
+            <!--The "Cance"/"Reload" Button has it own color set to it since this (below) style doesn't apply to it (idk why)-->
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+            </Style>
+            <Style x:Key="LastBtns" TargetType="Button">
+                <Setter Property="FontSize" Value="Title"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView Padding="10,0,10,10">
+            <StackLayout>
+                <!--=========================DEVICE SECTION=============================-->
+                <Label Text="Device"
+                        Style="{StaticResource SectionTitle}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="7*"/>
+                    </Grid.ColumnDefinitions>
+                    <!--<Label Text="{Binding gaugeMode}"
+                           Style="{StaticResource EntryLbl}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                           Grid.Column="0"/>
+                    <Picker x:Name="modeCombo"
+                            ItemsSource="{Binding GaugeModes}"
+                            SelectedIndexChanged="GaugeMode_Selected" 
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Grid.Column="1"/>-->
+                    <Label Text="{Binding gaugeType}"
+                           Style="{StaticResource EntryLbl}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                           Grid.Column="0"
+                           Grid.Row="0"/>
+                    <Picker x:Name="TypeCombo"
+                            SelectedIndexChanged="GaugeType_SelectedAsync" 
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Grid.Column="1"
+                            Grid.Row="0"/>
+                </Grid>
+                <!--=========================Backlight SECTION=============================-->
+                <Label Text="{Binding backlight}"
+                           Style="{StaticResource SectionTitle}"
+                           HorizontalOptions="StartAndExpand"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Text="{Binding voltHi}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="0"
+                           Grid.Column="0"/>
+                    <Label Text="{Binding voltLo}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="0"
+                           Grid.Column="1"/>
+                    <Entry x:Name="voltHi"
+                           Completed="EntryText_Changed"
+                           ClassId="6553.5"
+                            Placeholder="Range: 0-6,553.5"
+                           Grid.Row="1"
+                           Grid.Column="0"/>
+                    <Entry x:Name="voltLo"
+                           Completed="EntryText_Changed"
+                           ClassId="6553.5"
+                            Placeholder="Range: 0-6,553.5"
+                           Grid.Row="1"
+                           Grid.Column="1"/>
+                </Grid>
+                <!--=========================WARNING SECTION=============================-->
+                <Label Text="{Binding warningSec}"
+                           Style="{StaticResource SectionTitle}"
+                           HorizontalOptions="StartAndExpand"/>
+                <Grid RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding warnThresTop}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="2"
+                           Grid.Column="0"/>
+                    <Label Text="{Binding warnThresBot}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="2"
+                           Grid.Column="1"/>
+                    <Label Text="{Binding indicationZone}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="4"
+                           Grid.ColumnSpan="2"/>
+                    <Label Text="{Binding flashEff}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="6"
+                           Grid.Column="0"/>
+                    <Label Text="{Binding flashInten}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="9"
+                           Grid.Column="0"/>
+                    <Label Text="{Binding flashZone}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="6"
+                           Grid.Column="1"/>
+                    <Entry x:Name="warnThresTop"
+                           Completed="EntryText_ChangedPercentage"
+                           ClassId="30000"
+                            Placeholder="Range: Min - Max"
+                           Grid.Row="3" 
+                           Grid.Column="0"/>
+                    <Entry x:Name="warnThresBot"
+                           Completed="EntryText_ChangedPercentage"
+                           ClassId="30000"
+                            Placeholder="Range: Min - Max"
+                           Grid.Row="3"
+                           Grid.Column="1"/>
+                    <Picker x:Name="warnTopZone"
+                            SelectedIndexChanged="ComboBox_Changed"
+                            Grid.Row="5"
+                            Grid.Column="0"/>
+                    <Picker x:Name="warnBotZone"
+                            SelectedIndexChanged="ComboBox_Changed"
+                            Grid.Row="5"
+                            Grid.Column="1"/>
+                    <Entry x:Name="flashEff"
+                           Completed="EntryText_ChangedPercentage"
+                           ClassId="30000"
+                            Placeholder="Range: Min - Max"
+                           Grid.Row="7"
+                           Grid.Column="0"/>
+                    <Picker x:Name="flashInten"
+                            ItemsSource="{Binding Intesnity}"
+                            SelectedIndexChanged="ComboBox_Changed"
+                           Grid.Row="10"
+                           Grid.Column="0"/>
+                    <Picker x:Name="flashZone"
+                            SelectedIndexChanged="ComboBox_Changed"
+                            Grid.Row="7"
+                            Grid.Column="1"/>
+                    <!--buttons-->
+                    <Grid Grid.Row="9"
+                          Grid.Column="1"
+                          Grid.RowSpan="3">
+                        <Button Text="{Binding flashBtn}"
+                                ClassId="F"
+                                Clicked="ToggleBtns_ClickedAsync"
+                               Grid.Row="0"
+                               Grid.Column="0"/>
+                        <Button Text="{Binding warnBtn}" 
+                                ClassId="W"
+                                Clicked="ToggleBtns_ClickedAsync"
+                               Grid.Row="1"
+                               Grid.Column="0   "/>
+                    </Grid>
+                </Grid>
+
+                <!--=========================DRIVER SECTION=============================-->
+                <Label Text="{Binding driverSec}"
+                       Style="{StaticResource SectionTitle}"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding outputTopThres}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="0"
+                           Grid.Column="0"/>
+                    <Label Text="{Binding outputBotThres}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="0"
+                           Grid.Column="1"/>
+                    <Label Text="{Binding indicationZone}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="2"
+                           Grid.ColumnSpan="2"/>
+                    <Label Text="{Binding activDelay}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="4"
+                           Grid.Column="0"/>
+                    <Label Text="{Binding startDelay}"
+                           Style="{StaticResource EntryLbl}"
+                           Grid.Row="4"
+                           Grid.Column="1"/>
+                    <Entry x:Name="outputTopThres"
+                           Completed="EntryText_ChangedPercentage"
+                           ClassId="30000"
+                            Placeholder="Range: Min - Max"
+                           Grid.Row="1"
+                           Grid.Column="0"/>
+                    <Entry x:Name="outputBotThres"
+                           Completed="EntryText_ChangedPercentage"
+                           ClassId="30000"
+                            Placeholder="Range: Min - Max"
+                           Grid.Row="1"
+                           Grid.Column="1"/>
+                    <Picker x:Name="outputTopZone"
+                            SelectedIndexChanged="ComboBox_Changed"
+                            Grid.Row="3"
+                            Grid.Column="0"/>
+                    <Picker x:Name="outputBotZone"
+                            SelectedIndexChanged="ComboBox_Changed"
+                            Grid.Row="3"
+                            Grid.Column="1"/>
+                    <Entry x:Name="activDelay"
+                           Completed="EntryText_Changed"
+                           ClassId="60"
+                            Placeholder="Range: 0-60s"
+                           Grid.Row="5"
+                           Grid.Column="0"/>
+                    <Picker x:Name="startDelay"
+                            ItemsSource="{Binding bootDelays}" 
+                            SelectedIndexChanged="ComboBox_Changed"
+                           Grid.Row="5"
+                           Grid.Column="1"/>
+                </Grid>
+
+                <!--=========================CONFIRM SECTION=============================-->
+                <Grid Padding="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="reloadBtn"
+                            Text="{Binding cancelBtn}"
+                            Style="{StaticResource LastBtns}"
+                            ClassId="C"
+                            Clicked="SaveCancelBtns_ClickedAsync"
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Warn}">
+                    </Button>
+                    <Button x:Name="saveBtn"
+                            Text="{Binding saveBtn}"
+                            Style="{StaticResource LastBtns}"
+                            ClassId="S"
+                            Clicked="SaveCancelBtns_ClickedAsync"
+                            IsEnabled="{Binding Haschanges}"
+                            Grid.Column="1">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"    
+                                             Binding="{Binding Haschanges}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor"
+                                            Value="{StaticResource Pass}"/>
+                                </DataTrigger>
+                            </Button.Triggers>
+                    </Button>
+                </Grid>
+
+
+                <!--=========================SPEEDOMETER/TACHOMETER SECTION=============================-->
+                <xct:Expander x:Name="speedTachExpander"
+                              IsExpanded="False"
+                              Tapped="OnExpander_TappedAsync">
+                    <xct:Expander.Header>
+                        <Grid>
+                            <Label Text="{Binding speedtachSec}"
+                                Style="{StaticResource SectionTitle}"
+                                   HorizontalOptions="Start"/>
+                            <Label FontSize="Small"
+                                   Text="{Binding expandLbl}"
+                                   BackgroundColor="{StaticResource BackDark}"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   Padding="5"
+                                   Margin="0,0,20,0">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label"
+                                                 Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}"
+                                                 Value="True">
+                                        <Setter Property="Text"
+                                                Value="{Binding minimizeLbl}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </xct:Expander.Header>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding  enableAccumulation}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="0"
+                               Grid.Column="0"/>
+                            <Label Text="{Binding distanceUnits}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="0"
+                               Grid.Column="1"/>
+                            <Label Text="{Binding tripEnabled}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="2"
+                               Grid.Column="0"/>
+                            <Label Text="{Binding sensorEnabled}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="2"
+                               Grid.Column="1"/>
+                            <Label Text="{Binding precisionPPR}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="4"
+                               Grid.Column="0"/>
+                            <Label Text="{Binding speedoTachOutput}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="4"
+                               Grid.Column="1"/>
+                            <Label Text="{Binding speedoPPM}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="6"
+                               Grid.Column="0"/>
+                            <Label Text="{Binding tachPPR}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="6"
+                               Grid.Column="1"/>
+                            <Label Text="{Binding lcdTotalAccumulation}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="8"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"/>
+                            <Picker x:Name="enableAccumulation"
+                                    SelectedIndexChanged="ComboBox_Changed"
+                                    ItemsSource="{Binding enable}" 
+                                    Grid.Row="1"
+                                    Grid.Column="0"/>
+                            <Picker x:Name="distanceUnits"
+                                    SelectedIndexChanged="ComboBox_Changed"
+                                    ItemsSource="{Binding units}" 
+                                    Grid.Row="1"
+                                    Grid.Column="1"/>
+                            <Picker x:Name="tripEnabled"
+                                    SelectedIndexChanged="ComboBox_Changed"
+                                    ItemsSource="{Binding enable}" 
+                                    Grid.Row="3"
+                                    Grid.Column="0"/>
+                            <Picker x:Name="sensorEnabled"
+                                    SelectedIndexChanged="ComboBox_Changed"
+                                    ItemsSource="{Binding enable}" 
+                                    Grid.Row="3"
+                                    Grid.Column="1"/>
+                            <Picker x:Name="precisionPPR"
+                                    SelectedIndexChanged="ComboBox_Changed"
+                                    ItemsSource="{Binding dataType}" 
+                                    Grid.Row="5"
+                                    Grid.Column="0"/>
+                            <Picker x:Name="speedoTachOutput"
+                                    SelectedIndexChanged="ComboBox_Changed"
+                                    ItemsSource="{Binding output}" 
+                                    Grid.Row="5"
+                                    Grid.Column="1"/>
+                            <Entry x:Name="speedoPPM"
+                                    Completed="EntryTextNoDecimals_Changed"
+                                    ClassId="65535"
+                                    Placeholder="Range: 0 - 65535"
+                                    Grid.Row="7"
+                                    Grid.Column="0"/>
+                             <Entry x:Name="tachPPR"
+                                    Completed="EntryTextNoDecimals_Changed"
+                                    ClassId="255"
+                                    Placeholder="Range: 0 - 255"
+                                    Grid.Row="7"
+                                    Grid.Column="1"/>
+                            <Entry x:Name="lcdTotalAccumulation"
+                                    Completed="EntryText_Changed"
+                                    ClassId="999999.9"
+                                    IsEnabled="False"
+                                    Placeholder= "Range: 0-999999.9"
+                                    HorizontalTextAlignment="Center"
+                                    Grid.Row="9"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </StackLayout>
+                </xct:Expander>
+
+                <!--=========================ADVANCE SECTION=============================-->
+                <xct:Expander x:Name="fineTuneExpander"
+                              IsExpanded="False"
+                              Tapped="OnExpander_TappedAsync">
+                    <xct:Expander.Header>
+                        <Grid>
+                            <Label Text="{Binding advanceSec}"
+                                Style="{StaticResource SectionTitle}"
+                                   HorizontalOptions="Start"/>
+                            <Label FontSize="Small"
+                                   Text="{Binding expandLbl}"
+                                   BackgroundColor="{StaticResource BackDark}"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   Padding="5"
+                                   Margin="0,0,20,0">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label"
+                                                 Binding="{Binding Source={RelativeSource AncestorType={x:Type xct:Expander}}, Path=IsExpanded}"
+                                                 Value="True">
+                                        <Setter Property="Text"
+                                                Value="{Binding minimizeLbl}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </xct:Expander.Header>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding  ptrW8}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="0"
+                               Grid.Column="0"/>
+                            <Label Text="{Binding sensHys}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="0"
+                               Grid.Column="1"/>
+                            <Label Text="{Binding sensCoeff0}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="2"
+                               Grid.Column="0"/>
+                            <Label Text="{Binding sensCoeff1}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="2"
+                               Grid.Column="1"/>
+                            <Label Text="{Binding sensScanRt}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="4"
+                               Grid.Column="0"/>
+                            <Label Text="{Binding backLightScanRt}"
+                               Style="{StaticResource EntryLbl}"
+                               Grid.Row="4"
+                               Grid.Column="1"/>
+                            <Entry x:Name="ptrW8"
+                               Completed="EntryTextNoDecimals_Changed"
+                               ClassId="4000"
+                                   Placeholder="Range: 0-4000"
+                               Grid.Row="1"
+                               Grid.Column="0"/>
+                            <Entry x:Name="sensHys"
+                               Completed="EntryTextNoDecimals_Changed"
+                               ClassId="255"
+                                   Placeholder="Range: 0-255"
+                               Grid.Row="1"
+                               Grid.Column="1"/>
+                            <Entry x:Name="sensCoeff0"
+                               Completed="EntryText_Changed"
+                               ClassId="FM"
+                               Grid.Row="3"
+                               Grid.Column="0"/>
+                            <Entry x:Name="sensCoeff1"
+                               Completed="EntryText_Changed"
+                               ClassId="FM"
+                               Grid.Row="3"
+                               Grid.Column="1"/>
+                            <Entry x:Name="sensScanRt"
+                               Completed="EntryTextNoDecimals_Changed"
+                               ClassId="255"
+                                   Placeholder="Range: 0-255"
+                               Grid.Row="5"
+                               Grid.Column="0"/>
+                            <Entry x:Name="backLightScanRt"
+                               Completed="EntryTextNoDecimals_Changed"
+                               ClassId="255"
+                                   Placeholder="Range: 0-255"
+                               Grid.Row="5"
+                               Grid.Column="1"/>
+                        </Grid>
+                    </StackLayout>
+                </xct:Expander>
+
+                <Label HeightRequest="30" HorizontalOptions="FillAndExpand" Margin="5"/>
+                <Button x:Name="factoryResetbtn"
+                        Text="{Binding resetBtn}"
+                        Style="{StaticResource LastBtns}"
+                        BackgroundColor="{StaticResource Error}"
+                        ClassId="R"
+                        Clicked="SaveCancelBtns_ClickedAsync"
+                        VerticalOptions="CenterAndExpand"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

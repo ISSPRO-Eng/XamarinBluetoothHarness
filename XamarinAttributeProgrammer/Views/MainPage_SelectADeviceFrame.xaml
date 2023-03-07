@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:XamarinAttributeProgrammer.ViewModels;assembly=XamarinAttributeProgrammer"
+             BackgroundColor="{StaticResource Back}"
+             xmlns:views="clr-namespace:XamarinAttributeProgrammer.Views;assembly=XamarinAttributeProgrammer"
+             x:Class="XamarinAttributeProgrammer.Views.MainPage_SelectADeviceFrame">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Text="Device"
+               Grid.Row="0"
+               FontSize="10"
+               HorizontalOptions="Start"
+               Opacity="0.5" />
+        <Label Text="Tap to edit"
+               BindingContext="{x:Static viewModels:DFUPageViewModel.Instance}"
+               IsVisible="{Binding HasStarted, Converter={StaticResource InvertedBooleanConverter}}"
+               Grid.Row="0"
+               FontSize="10"
+               HorizontalOptions="End"
+               Opacity="0.5" />
+        <views:ScanResultFrame Grid.Row="1" BindingContext="{Binding SelectedDevice, Source={x:Static viewModels:SelectADevicePageViewModel.Instance}}" />
+    </Grid>
+</ContentView>

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodels="clr-namespace:XamarinAttributeProgrammer.ViewModels" x:DataType="viewmodels:ConnectViewModel"
+             xmlns:resx="clr-namespace:XamarinAttributeProgrammer.Resources"
+             x:Class="XamarinAttributeProgrammer.Views.ConnectPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource Back}"
+             Shell.PresentationMode="Animated"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <StackLayout
+        Padding="50"
+        Margin="5,-50,5,5"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand">
+        <Label Text="{Binding StatusString}"
+               FontSize="36"
+               TextColor="{Binding StatusFontcolor}"
+               FontAttributes="Bold"/>
+        <Grid IsVisible="{Binding isConnected}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="{Binding to}"
+                   FontSize="Large"
+                   TextColor="White"
+                   VerticalTextAlignment="Center"
+                   Grid.Column="0"/>
+            <Entry x:Name="DeviceNameEntry" 
+                   Text=""
+                   FontSize="Large"
+                   TextColor="White"
+                   BackgroundColor="Transparent"
+                   HorizontalOptions="FillAndExpand"
+                   MaxLength="12"
+                   Grid.Column="1"/>
+            <Button Text="{Binding renameBtnTxt}"
+                    FontSize="14"
+                    HorizontalOptions="FillAndExpand"
+                    Clicked="UpdateNameBtn_ClickedAsync"
+                    Grid.Column="2"
+                    BackgroundColor="{StaticResource Pass}"
+                    />
+        </Grid>
+        <Label Text="{Binding ConnectionInfoString}" 
+               FontSize="Body"
+               TextColor="White"/>
+        <Button x:Name="mainBtn" 
+                Text="{Binding ButtonTxtVal}"
+                FontSize="48"
+                Margin="5,5,5,5"
+                WidthRequest="300"
+                HorizontalOptions="CenterAndExpand"
+                HeightRequest="80"
+                VerticalOptions="CenterAndExpand"
+                Clicked="ConnectDisconnectBtn_ClickedAsync">
+            <Button.Triggers>
+                <DataTrigger TargetType="Button"
+                            Binding="{Binding isConnected}"
+                            Value="True">
+                    <Setter Property="BackgroundColor"
+                            Value="{StaticResource Warn}" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button"
+                            Binding="{Binding isConnected}"
+                            Value="False">
+                    <Setter Property="BackgroundColor"
+                            Value="{StaticResource Pass}" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+    </StackLayout>
+</ContentPage>

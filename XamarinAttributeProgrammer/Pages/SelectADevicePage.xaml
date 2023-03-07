@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:XamarinAttributeProgrammer.Models;assembly=XamarinAttributeProgrammer"
+             xmlns:viewModels="clr-namespace:XamarinAttributeProgrammer.ViewModels;assembly=XamarinAttributeProgrammer"
+             xmlns:views="clr-namespace:XamarinAttributeProgrammer.Views;assembly=XamarinAttributeProgrammer"
+             x:Class="XamarinAttributeProgrammer.Pages.SelectADevicePage"
+             BackgroundColor="{StaticResource Back}"
+             BindingContext="{x:Static viewModels:SelectADevicePageViewModel.Instance}"
+             Title="Available devices">
+    <ContentPage.Content>
+        <Grid Padding="12" RowSpacing="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Button Text="❮"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Clicked="BackBtn_ClickedAsync"
+                        FontSize="Title"
+                        WidthRequest="40"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Start"
+                        Grid.Row="1"
+                        />
+            <CollectionView x:Name="DevicesListView"
+                            Margin="5"
+                            SelectionMode="Single"
+                            ItemsSource="{Binding ScanResults}"
+                            SelectedItem="{Binding SelectedDevice}"
+                            Grid.Row="2"
+                            SelectionChanged="DevicesListView_OnSelectionChanged">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label Text="No device found ..." HorizontalOptions="Fill" VerticalOptions="Fill" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:CustomScanResult">
+                        <views:ScanResultFrame />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

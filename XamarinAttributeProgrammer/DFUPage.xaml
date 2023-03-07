@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XamarinAttributeProgrammer"
+             xmlns:views="clr-namespace:XamarinAttributeProgrammer.Views"
+             xmlns:viewmodels="clr-namespace:XamarinAttributeProgrammer.ViewModels"
+             BackgroundColor="{StaticResource Back}"
+             Title="Nordic DFU Update OTA"
+             x:Class="XamarinAttributeProgrammer.DFUPage">
+    <ScrollView>
+    <Grid Padding="20" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackLayout Orientation="Horizontal"
+                         Grid.Row="0"
+                         Grid.Column="0"
+                         Margin="-10,-20,0,0">
+                <Button Text="❮"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Clicked="BackBtn_ClickedAsync"
+                        FontSize="Title"
+                        WidthRequest="40"
+                        Padding="10,0,10,0"
+                        />
+            </StackLayout>
+        <views:MainPage_SelectADeviceFrame Grid.Row="1"/>
+        <views:MainPage_PickFirmwarePackageFrame Grid.Row="2"/>
+        <views:MainPage_TweakDfuInstallation Grid.Row="3"/>
+        <Button Text="Start"
+                Grid.Row="4"
+                BackgroundColor="Black"
+                Clicked="StartButton_ClickedAsync"
+                FontAttributes="Bold" />
+    </Grid>
+    </ScrollView>
+</ContentPage>

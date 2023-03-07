@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+		<integer>2</integer>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>MinimumOSVersion</key>
+	<string>9.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>Attribute Programmer</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.isspro.AttributeProgrammer</string>
+	<key>CFBundleName</key>
+	<string>XamarinAttributeProgrammer</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth is required to connect to the gauge to program attributes onto the gauge.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Enabling location allows the app to accurately locate the near by gauges.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Enabling location allows the app to accurately locate the near by gauges.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Enabling location allows the app to accurately locate the near by gauges.</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIMainStoryboardFile</key>
+	<string>LaunchScreen</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.4.0</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleVersion</key>
+	<string>7.0</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluetooth is required for OTA DFU firmware updates</string>
+</dict>
+</plist>

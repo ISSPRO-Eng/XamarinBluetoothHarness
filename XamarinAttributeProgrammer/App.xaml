@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinAttributeProgrammer.App"
+             xmlns:converters="clr-namespace:XamarinAttributeProgrammer.Converters"
+             NavigationPage.HasNavigationBar="False">
+    <!--
+        Define global resources and styles here, that apply to all pages in your app.
+    -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="White">#FBFAF5</Color>
+            <Color x:Key="Gray">#888D91</Color>
+            <Color x:Key="BackDark">#2c3238</Color>
+            <Color x:Key="Back">#3A4149</Color>
+            <Color x:Key="Pass">#56C09F</Color>
+            <Color x:Key="Warn">#EC9E75</Color>
+            <Color x:Key="Error">#FF7979</Color>
+            <Color x:Key="blue">#2196F3</Color>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="white"/>
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="TextColor" Value="white"/>
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="white"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Gray}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Enable">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+            <converters:HasDataConverter x:Key="HasDataConverter"/>
+            <converters:HasNoDataConverter x:Key="HasNoDataConverter"/>
+            <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
+        </ResourceDictionary>        
+    </Application.Resources>
+</Application>

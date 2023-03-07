@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinAttributeProgrammer.Views.OptionsPage"
+             xmlns:viewmodels="clr-namespace:XamarinAttributeProgrammer.ViewModels"
+             x:DataType="viewmodels:OptionsViewModel"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             Title="Options"
+             BackgroundColor="{StaticResource Back}"
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="Title"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView Padding ="10,0,10,10">
+        <Grid>
+            <Grid Margin="5,15,5,40" 
+                         VerticalOptions="StartAndExpand"
+                         HorizontalOptions="Fill">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*"/>
+                </Grid.ColumnDefinitions>
+                <Button Text="DIAGNOSTIC"
+                        Clicked="DiagnosticBtn_ClickedAsync"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Grid.Row="0"
+                        />
+                <Button Text="STORE"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Clicked="StoreBtn_ClickedAsync"
+                        Grid.Row="1"
+                        />
+                <Button Text="CONTACT"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Clicked="ContactBtn_ClickedAsync"
+                        Grid.Row="2"
+                        />
+                <Button Text="PRIVACY POLICY"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Clicked="PrivacyPolicyBtn_ClickedAsync"
+                        Grid.Row="3"
+                        />
+                <Button Text="INSTRUCTIONS"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Clicked="InstructionBtn_ClickedAsync"
+                        Grid.Row="4"
+                        />
+                <Button Text="FIRMWARE UPDATE"
+                        BackgroundColor="{StaticResource BackDark}"
+                        Clicked="FirmwareBtn_ClickedAsync"
+                        Grid.Row="5"
+                        />
+            </Grid>
+            <Grid VerticalOptions="End"
+                  HorizontalOptions="FillAndExpand"
+                  Margin="5">
+                <Button Text="CLEAR GAUGE"
+                        x:Name="clearBtn"
+                        BackgroundColor="{StaticResource Error}"
+                        IsVisible="{Binding GaugeConnected}"
+                        Clicked="ClearBtn_ClickedAsync"
+                        Grid.Row="0"
+                        />
+                <Label Text="{Binding AppVersion}"
+                       Grid.Row="1"
+                       VerticalTextAlignment="Center"
+                       HorizontalOptions="End"
+                       />
+                <Label Text="Copyright © 2022"
+                       Grid.Row="1"
+                       HorizontalOptions="Start"
+                       VerticalTextAlignment="Center"
+                       FontSize="Caption"
+                       />
+            </Grid>
+        </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

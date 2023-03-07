@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:XamarinAttributeProgrammer.Views"
+       Title="XamarinAttributeProgrammer"
+       x:Class="XamarinAttributeProgrammer.AppShell"
+       NavigationPage.HasNavigationBar="False">
+
+    <!--
+        The overall app visual hierarchy is defined here, along with navigation.
+    
+        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
+    -->
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Back}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <!--Nav bar at bottom-->
+                <Setter Property="Shell.TabBarBackgroundColor" Value="#4E5762" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="White"/> <!-- Font color of nav bar-->
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <TabBar>
+        <ShellContent Title="Connect" Icon="icon_connect.png" Route="ConnectPage" ContentTemplate="{DataTemplate local:ConnectPage}" />
+        <ShellContent Title="Colors" Icon="icon_color.png" Route="AboutPage" ContentTemplate="{DataTemplate local:ColorSelectionPage}" />
+        <ShellContent Title="Attributes" Icon="icon_setting.png" ContentTemplate="{DataTemplate local:AttributesPage}" />
+        <ShellContent Title="Extras" Icon="icon_options.png" ContentTemplate="{DataTemplate local:OptionsPage}" />
+    </TabBar>
+
+    <!--
+        If you would like to navigate to this content you can do so by calling
+        await Shell.Current.GoToAsync("//LoginPage");
+    -->
+
+</Shell>

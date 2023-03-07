@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="activDelay" xml:space="preserve">
+    <value>Activation Delay</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="advance" xml:space="preserve">
+    <value>Advance</value>
+    <comment>for Attribute Page</comment>
+  </data>
+  <data name="alert" xml:space="preserve">
+    <value>Alert</value>
+    <comment>for instructions</comment>
+  </data>
+  <data name="attributeAdvanceWarning" xml:space="preserve">
+    <value>Avoid adjusting values in this section unless it is required for the gauge to function properly.</value>
+  </data>
+  <data name="backlight" xml:space="preserve">
+    <value>Backlight</value>
+    <comment>for the color selection page</comment>
+  </data>
+  <data name="BacklightScanRt" xml:space="preserve">
+    <value>Backlight Scan Rate</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="blueSliderLbl" xml:space="preserve">
+    <value>BLUE (</value>
+    <comment>Leave the '('</comment>
+  </data>
+  <data name="buildStageInfo" xml:space="preserve">
+    <value>** BETA MODE **
+This version is in beta mode for the purpose of testing and bug reports. Contents are subject to change. Please report any bug(s) you've encountered via Contact option in the Advance page.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>CANCEL</value>
+  </data>
+  <data name="clear" xml:space="preserve">
+    <value>Clear</value>
+    <comment>Delete all</comment>
+  </data>
+  <data name="clearAllAttWarning" xml:space="preserve">
+    <value>Are you sure you want to CLEAR ALL attribute values?</value>
+  </data>
+  <data name="clearLog" xml:space="preserve">
+    <value>Are you sure you want to clear the log? This action can not be reverted!</value>
+  </data>
+  <data name="collapseSection" xml:space="preserve">
+    <value>Expand for Fine Tuning</value>
+    <comment>Label for the collapser in color</comment>
+  </data>
+  <data name="colorFocusLabel" xml:space="preserve">
+    <value>Change the color of..</value>
+  </data>
+  <data name="connectBtnTxt" xml:space="preserve">
+    <value>SCAN</value>
+  </data>
+  <data name="connected" xml:space="preserve">
+    <value>CONNECTED</value>
+  </data>
+  <data name="connectedInfoMsg" xml:space="preserve">
+    <value>Serial no: {0}
+Software Ver: {1}
+Board Type: {2}</value>
+  </data>
+  <data name="connectedMsg" xml:space="preserve">
+    <value>Device connected!</value>
+  </data>
+  <data name="connectionFailed" xml:space="preserve">
+    <value>Failed to connect, could not establish a proper connection.</value>
+    <comment>failed to connect to a device</comment>
+  </data>
+  <data name="connectionLost" xml:space="preserve">
+    <value>Lost connection to the device.</value>
+  </data>
+  <data name="copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="copySuccess" xml:space="preserve">
+    <value>Item has been copied to the clipboard.</value>
+    <comment>for copy button on diagnostic</comment>
+  </data>
+  <data name="deviceRenamed" xml:space="preserve">
+    <value>Successfully renamed the gauge. The new name will appear after the gauge is restarted.</value>
+  </data>
+  <data name="dfuSuccess" xml:space="preserve">
+    <value>Successfully flashed gauge with updated firmware.</value>
+  </data>
+  <data name="dimVoltHi" xml:space="preserve">
+    <value>Dimmer Voltage High</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="dimVoltLo" xml:space="preserve">
+    <value>Dimmer Voltage Low</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="discardChangeMsg" xml:space="preserve">
+    <value>You have not saved your changes. Leaving now will revert your changes, do you wish to continue?</value>
+  </data>
+  <data name="disconnectBtnTxt" xml:space="preserve">
+    <value>UNLINK</value>
+  </data>
+  <data name="disconnected" xml:space="preserve">
+    <value>NOT
+CONNECTED</value>
+  </data>
+  <data name="disconnectedInfoMsg" xml:space="preserve">
+    <value>No gauge is currently connected. Restart the gauge and start scanning to connect to your EV3!
+</value>
+  </data>
+  <data name="distanceUnits" xml:space="preserve">
+    <value> Distance Units
+</value>
+  </data>
+  <data name="driver" xml:space="preserve">
+    <value>Driver</value>
+    <comment>for Attribute Page</comment>
+  </data>
+  <data name="enableAccumulation" xml:space="preserve">
+    <value>Total Accumulation</value>
+  </data>
+  <data name="enableSensor" xml:space="preserve">
+    <value>Hall Sensor</value>
+  </data>
+  <data name="errorEmptyField" xml:space="preserve">
+    <value>Please do not leave any empty field.</value>
+  </data>
+  <data name="errorTitle" xml:space="preserve">
+    <value>Error</value>
+    <comment>for popups</comment>
+  </data>
+   <data name="errorMsg" xml:space="preserve">
+    <value>Error saving attribute to gauge. Try again</value>
+    <comment>for popups</comment>
+  </data>
+  <data name="expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+   <data name="exit" xml:space="preserve">
+    <value>Exit using back button and return to update next device!</value>
+  </data>
+  <data name="factoryResetWarning" xml:space="preserve">
+    <value>Would you like to reset the attributes to factory defaults?</value>
+  </data>
+  <data name="flashBtn" xml:space="preserve">
+    <value>Test Flashing</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="flashedSuccessMsg" xml:space="preserve">
+    <value>Setting successfully saved to the gauge!</value>
+  </data>
+  <data name="flashEffect" xml:space="preserve">
+    <value>Flash Effect Value</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="flashIntens" xml:space="preserve">
+    <value>Flash Intensity</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="flashZone" xml:space="preserve">
+    <value>Flash Zone</value>
+    <comment>Label for Attribute page</comment>
+  </data>
+  <data name="gaugeMode" xml:space="preserve">
+    <value>Gauge Mode</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="gaugeType" xml:space="preserve">
+    <value>Gauge Type</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="greenSliderLbl" xml:space="preserve">
+    <value>GREEN (</value>
+    <comment>Leave the '('</comment>
+  </data>
+  <data name="indicationZone" xml:space="preserve">
+    <value>Indication Zones</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="lcdTotalAccumulation" xml:space="preserve">
+    <value>Total Accuulation (Miles or Hours)</value>
+  </data>
+  <data name="loadNewGaugeAtt" xml:space="preserve">
+    <value>New gauge detected! Do you want to load the new gauge's attributes?</value>
+    <comment>reset confirmation message</comment>
+  </data>
+  <data name="loadProfile" xml:space="preserve">
+    <value>Would you like to load {0} attribute profile? The profile will not be saved into the gauge untill told so.</value>
+    <comment>msg when gauge type is selected</comment>
+  </data>
+  <data name="mini" xml:space="preserve">
+    <value>Minimize</value>
+  </data>
+  <data name="needle" xml:space="preserve">
+    <value>Needle</value>
+    <comment>for the color selection page</comment>
+  </data>
+  <data name="nodevices" xml:space="preserve">
+    <value>No devices found.</value>
+  </data>
+  <data name="noTXRXChar" xml:space="preserve">
+    <value>Could not find TX and/or RX Characteristics.</value>
+    <comment>connect does not have away to TX and RX</comment>
+  </data>
+  <data name="noWriteAccess" xml:space="preserve">
+    <value>Tranmission channel does not allow write.</value>
+    <comment>connect does not have TX characteristic</comment>
+  </data>
+  <data name="nullValue" xml:space="preserve">
+    <value>&lt;Unknown&gt;</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="outputBotThres" xml:space="preserve">
+    <value>Output Value Low</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="outputTopThres" xml:space="preserve">
+    <value>Output Value High</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="parseError" xml:space="preserve">
+    <value>Error parsing the given input. Please enter a valid value!</value>
+  </data>
+  <data name="permissionLocation" xml:space="preserve">
+    <value>Please grant this app permission to your location always to use this feature.</value>
+  </data>
+  <data name="permissionReqMsg" xml:space="preserve">
+    <value>Please grant this app permission to your location in order to use the BT feature.</value>
+  </data>
+  <data name="permissionReqPrior" xml:space="preserve">
+    <value>Attribute Programmer collects location data to enable Bluetooth even when the app is closed or not in use.</value>
+    <comment>message before letting the user choose</comment>
+  </data>
+  <data name="permissionTitle" xml:space="preserve">
+    <value>Permission Required</value>
+    <comment>prompt for permission req</comment>
+  </data>
+  <data name="precisionPPR" xml:space="preserve">
+    <value>PPR Precision</value>
+  </data>
+  <data name="presetLbl" xml:space="preserve">
+    <value>PRESETS</value>
+  </data>
+  <data name="ptrW8" xml:space="preserve">
+    <value>Pointer Weight</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="redSliderLbl" xml:space="preserve">
+    <value>RED (</value>
+    <comment>Leave the '('</comment>
+  </data>
+  <data name="reload" xml:space="preserve">
+    <value>Reload</value>
+    <comment>refresh</comment>
+  </data>
+  <data name="rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>RESET</value>
+  </data>
+  <data name="resetMsg" xml:space="preserve">
+    <value>Are you sure you want to discard all changes that was made on this page to saved profile?</value>
+    <comment>reset confirmation message</comment>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>SAVE</value>
+  </data>
+  <data name="scanning" xml:space="preserve">
+    <value>SCANNING</value>
+  </data>
+  <data name="sensCoeff0" xml:space="preserve">
+    <value>Sensor Coeff. 0</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="sensCoeff1" xml:space="preserve">
+    <value>Sensor Coeff. 1</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="sensHys" xml:space="preserve">
+    <value>Sensor Hysteresis</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="sensScanRt" xml:space="preserve">
+    <value>Sensor Scan Rate</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="startDelay" xml:space="preserve">
+    <value>Startup Delay</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="successTitle" xml:space="preserve">
+    <value>Sucess</value>
+    <comment>for popups</comment>
+  </data>
+  <data name="speedtachSec" xml:space="preserve">
+    <value>Speedometer/Tachometer Settings</value>
+  </data>
+  <data name="speedoTachOutput" xml:space="preserve">
+    <value>Output Settings</value>
+  </data>
+  <data name="speedoPPM" xml:space="preserve">
+    <value>Speedometer PPM</value>
+  </data>
+  <data name="tachPPR" xml:space="preserve">
+    <value>Tachometer PPR</value>
+  </data>
+  <data name="to" xml:space="preserve">
+    <value>To </value>
+    <comment>e.g Connected to X</comment>
+  </data>
+   <data name="enableTrip" xml:space="preserve">
+    <value>Trip Enabled </value>
+  </data>
+  <data name="wait" xml:space="preserve">
+    <value>Please wait for DFU process to finish. </value>
+  </data>
+  <data name="warnBtn" xml:space="preserve">
+    <value>Test Warning</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="warning" xml:space="preserve">
+    <value>Warning</value>
+    <comment>Lbl for Attribute Page</comment>
+  </data>
+  <data name="warnThresBot" xml:space="preserve">
+    <value>Warning Value Low</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="warnThresTop" xml:space="preserve">
+    <value>Warning Value High</value>
+    <comment>Entry Lbl for Attribute Page</comment>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment>agree</comment>
+  </data>
+</root>

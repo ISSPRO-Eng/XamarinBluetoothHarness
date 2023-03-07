@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage  
+        xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:rg="http://rotorgames.com"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        x:Class="XamarinAttributeProgrammer.Views.RainbowWheelPopup"
+        xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker" 
+        xmlns:viewmodels="clr-namespace:XamarinAttributeProgrammer.ViewModels" 
+        x:DataType="viewmodels:RainbowWheelPopupViewModel"
+        CloseWhenBackgroundIsClicked="True"
+        IsAnimationEnabled="True">
+    <rg:PopupPage.Animation>
+        <rg:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="1.2"
+            DurationIn="200"
+            DurationOut="150"
+            HasBackgroundAnimation="True"/>
+    </rg:PopupPage.Animation>
+    <ContentView
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        WidthRequest="300"
+        HeightRequest="400"
+        BackgroundColor="{Binding SelectedColor}"
+        >
+        <StackLayout >
+            <colorpicker:ColorCircle x:Name="colorWheel"
+                                     SelectedColor="{Binding SelectedColor, Mode=OneWayToSource}"
+                                    ShowLuminosityWheel="False"/>
+
+            <Grid ColumnSpacing="20" HorizontalOptions="CenterAndExpand" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="cancelbtn"
+                        Text="{Binding CancelBtnLbl}"
+                        BackgroundColor="{StaticResource Warn}"
+                        Grid.Column="0"
+                        FontSize="24"
+                        Clicked="CloseDialog"
+                        />
+                <Button x:Name="okbtn"
+                        Text="{Binding OkBtnLbl}" 
+                        BackgroundColor="{StaticResource Pass}"
+                        Grid.Column="1"
+                        FontSize="24"
+                        Clicked="CloseDialog"
+                        />
+            </Grid>
+        </StackLayout>
+    </ContentView>
+</rg:PopupPage>

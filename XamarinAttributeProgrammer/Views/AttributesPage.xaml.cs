@@ -34,41 +34,31 @@ namespace XamarinAttributeProgrammer.Views
         string previousConnectionGuid = null;
         bool _loadedAtt = false;
         bool _changeDetected = false;
+        bool _speedoTach = false;
         bool _alreadyShowAdvanceWarning = false;
 
 
         // Following two enums are from the Attribute.h in the executable
         enum GaugeType
         {
-            ATT_GAUGE_DEMO,
-            ATT_GAUGE_FUEL_LEVEL_STEWART_WARNER,
-            ATT_GAUGE_VOLT_18V,
-            ATT_GAUGE_COOL_TEMP_100_280,
-            ATT_GAUGE_REAR_AXLE_TEMP_100_280,
-            ATT_GAUGE_TRANS_OIL_TEMP_100_280,
-            ATT_GAUGE_PRI_AIR_PRESS_175,
-            ATT_GAUGE_OIL_PRESS_100,
-            ATT_GAUGE_EXHAUST_BACK_PRESS_60,
-            ATT_GAUGE_EXHAUST_BACK_PRESS_100,
-            ATT_GAUGE_TURBO_BOOST_40,
-            ATT_GAUGE_TURBO_BOOST_60,
-            ATT_GAUGE_TURBO_BOOST_100,
-            ATT_GAUGE_FUEL_PRESS_30_30,         //Fuel gauge 30 psi using 30 psi sensor
-            ATT_GAUGE_FUEL_PRESS_100_30,        //Fuel gauge 30 psi using 100 psi  sensor
-            ATT_GAUGE_FUEL_PRESS_100_40,        //Fuel gauge 40 psi using 100 psi  sensor
-            ATT_GAUGE_FUEL_PRESS_100_100,       //Fuel gauge 100 psi using 100 psi  sensor
-            ATT_GAUGE_FUEL_RAIL_PRESS_29k_30k,
-            ATT_GAUGE_VOLT_36V,
-            ATT_GAUGE_PYRO_1600,
-            ATT_GAUGE_PYRO_2000,
-            ATT_GAUGE_FUEL_LEVEL_0_30,
-            ATT_GAUGE_FUEL_LEVEL_0_90,
-            ATT_GAUGE_FUEL_LEVEL_10_180,
-            ATT_GAUGE_FUEL_LEVEL_78_10,
-            ATT_GAUGE_FUEL_LEVEL_10_158,
-            ATT_GAUGE_SPEEDO,
-            ATT_GAUGE_TACH,
-            ATT_GAUGE_GPS_SPEEDO,
+            ATT_GAUGE_4kTACH_80mphSPEEDO,
+            ATT_GAUGE_4kTACH_120mphSPEEDO,
+            ATT_GAUGE_6kTACH_120mphSPEEDO,
+            ATT_GAUGE_8kTACH_120mphSPEEDO,
+            ATT_GAUGE_8kTACH_160mphSPEEDO,
+            ATT_GAUGE_3kTACH_200kmSPEEDO,
+            ATT_GAUGE_6kTACH_200kmSPEEDO,
+            ATT_GAUGE_8kTACH_200kmSPEEDO,
+            ATT_GAUGE_30psiBOOST_1600PYRO,
+            ATT_GAUGE_40psiBOOST_1600PYRO,
+            ATT_GAUGE_60psiBOOST_2000YRO,
+            ATT_GAUGE_2barBOOST_900PYRO,
+            ATT_GAUGE_DUAL_1600PYRO,
+            ATT_GAUGE_DEF_FUEL,
+            ATT_GAUGE_TEMP_FUEL,
+            ATT_GAUGE_TEMP_PRESSURE_FUEL_VOLTS,
+            ATT_GAUGE_DEMO_2_1,
+            ATT_GAUGE_DEMO_4_1,
             //  Add new gauge here. Keep the above's order!
             ATT_GAUGE_NONE = 65535
         }
@@ -98,6 +88,7 @@ namespace XamarinAttributeProgrammer.Views
             }
         }
 
+
         /// <summary>
         /// Function to remove items from the picker that is not made for the specific gauge.
         /// </summary>
@@ -116,48 +107,28 @@ namespace XamarinAttributeProgrammer.Views
                 return;
             }
 
-            int pcb = _att.getDevice_PCB_Type();
-            // Get our list of strings where the Value match our pcb value
+            int pcb = 255;
+            // Show all gauge types since we do not utilize an ADC for pcb selections
             List<string> types = gaugeType.Where(x => x.Value == pcb).Select(x => x.Key).ToList();
-            types.Add(gaugeType[0].Key); // we want to add the DEMO mode
             types.Add(gaugeType[gaugeType.Count - 1].Key); // we want to add the last item, which is NONE
 
             typeCombo.ItemsSource = types;
-            DiagnosticPage.AddToLog("I: Device PCB Type = " + pcb);
         }
-
+        
         // Event handler when the the page is in focus (such as switch back to this page)
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             DiagnosticPage.AddToLog("I: Entering Attribute Pages");
 
             // We want to check to see if this page had already load the attribute of the connected
-            // gauge, and if not then load the attribute. If a new gauge is connected (else if)
-            // then ask the user if they want to refresh the page.
+            // gauge, and if not then load the attribute.
             if (!_loadedAtt)
             {
                 FillEntry();
-            }
-            else if (!string.IsNullOrEmpty(previousConnectionGuid))
-            {
-                string attGuid = _att.getGUID().ToString() ?? "";
-                if (!attGuid.Equals(previousConnectionGuid))
-                {
-                    // If we made a new connection to a different gauge, check to see if they want to load the new gauge's profile
-                    var answer = await DisplayAlert(Resourcer.Warning,
-                                                   Resourcer.getResStrVal("loadNewGaugeAtt"),
-                                                   Resourcer.Ok, Resourcer.Cancel);
-                    if (answer)
-                    {
-                        TypeCombo.SelectedIndexChanged -= GaugeType_SelectedAsync;
-                        FillEntry();
-                        EnableTypeEvent();
-                    }
-                    previousConnectionGuid = attGuid;
-                }
+                _loadedAtt = true;
             }
         }
-
+        
         void EnableTypeEvent()
         {
             // Disable the event when the gauge type is selected
@@ -175,6 +146,7 @@ namespace XamarinAttributeProgrammer.Views
         // As the title said, this is to fill out all the boxes on the page
         private void FillEntry(bool clear = false, bool? skipPickerUpdate = false)
         {
+            
             if (_att == null)
                 return;
                
@@ -206,99 +178,42 @@ namespace XamarinAttributeProgrammer.Views
                     }
                 }
             }
-            // get saved attributes from gauge
-            float full = _att.getGaugeFull();
-            float home = _att.getGaugeHome();
-            float warnTop = _att.getGaugeWarningTopLevel();
-            float warnBot = _att.getGaugeWarningBotLevel();
-            float warnFlash = _att.getGaugeBacklightLevel();
-            float driverTop = _att.getGaugeOutputTopLevel();
-            float driverBot = _att.getGaugeOutputBotLevel();
 
-            // convert attrs to gauge min to max
-            float percentWarnTop = (warnTop / (float)100.0 * full);
-            float percentWarnBot = (warnBot / (float)100.0 * full);
-            float percentFlash = (warnFlash / (float)100.0 * full);
-            float percentDriverTop = (driverTop / (float)100.0 * full);
-            float percentDriverBot = (driverBot / (float)100.0 * full);
 
-            // get pcb
-            int pcb = _att.getDevice_PCB_Type();
-            // add home position for gauges whose home != 0
-            if (pcb == 4 || pcb == 6 || pcb == 7)
-            {
-                percentWarnTop = (warnTop / (float)100.0 * (full- home)) + home;
-                percentWarnBot = (warnBot / (float)100.0 * (full - home)) + home;
-                percentFlash = (warnFlash / (float)100.0 * (full - home)) + home;
-                percentDriverTop = (driverTop / (float)100.0 * (full - home)) + home;
-                percentDriverBot = (driverBot / (float)100.0 * (full - home)) + home;
-            }
-            // only run for fuel gauge to display actual % 
-            else if (pcb == 5)
-            {
-                percentWarnTop = warnTop;
-                percentWarnBot = warnBot;
-                percentFlash = warnFlash;
-                percentDriverTop = driverTop;
-                percentDriverBot = driverBot;
-            }
+            // Shared
+            voltHi.Text = clear ? "18.1" : _att.getGaugeBacklightTopVoltage().ToString();
+            voltLo.Text = clear ? "7.8" : _att.getGaugeBacklightBotVoltage().ToString();
+            dimmerInput.SelectedIndex = clear ? 0 : _att.getBacklightInput();
+            warningLightFlash.SelectedIndex = clear ? 0 : _att.getBacklightFlash();
+            maxBrightness.Text = clear ? "100" : _att.getMaxBrightness().ToString();
+            daytimeBrightness.Text = clear ? "0" : _att.getDaytimeBrightness().ToString();
 
-            // WARNING
-            voltHi.Text = clear ? "" : _att.getGaugeBacklightTopVoltage().ToString();
-            voltLo.Text = clear ? "" : _att.getGaugeBacklightBotVoltage().ToString();
-            // gives 1 decimal for volt gaguges to be shown to user
-            if (pcb == 6 || pcb == 7)
-            {
-                warnThresTop.Text = clear ? "" : Math.Round(percentWarnTop, 1).ToString();
-                warnThresBot.Text = clear ? "" : Math.Round(percentWarnBot, 1).ToString();
-                flashEff.Text = clear ? "" : Math.Round(percentFlash, 1).ToString();
-            }
-            else
-            {
-                warnThresTop.Text = clear ? "" : Math.Round(percentWarnTop, 0).ToString();
-                warnThresBot.Text = clear ? "" : Math.Round(percentWarnBot, 0).ToString();
-                flashEff.Text = clear ? "" : Math.Round(percentFlash, 0).ToString();
-            }
-            warnTopZone.SelectedIndex = clear ? 0 : _att.getGaugeWarningTopZone();
-            warnBotZone.SelectedIndex = clear ? 0 : _att.getGaugeWarningBotZone();
-            flashInten.SelectedIndex = clear ? 0 : _att.getGaugeBacklightFlashIntensity();
-            flashZone.SelectedIndex = clear ? 0 : _att.getGaugeBacklightZone();
+            // Quad Selected = 0
+            quadSelection.SelectedIndex = 0;
 
-            // DRIVER
-            // gives decimals for volt gauges
-            if (pcb == 6 || pcb == 7)
-            {
-                outputTopThres.Text = clear ? "" : Math.Round(percentDriverTop, 1).ToString();
-                outputBotThres.Text = clear ? "" : Math.Round(percentDriverBot, 1).ToString();
-            }
-            else
-            {
-                outputTopThres.Text = clear ? "" : Math.Round(percentDriverTop, 0).ToString();
-                outputBotThres.Text = clear ? "" : Math.Round(percentDriverBot, 0).ToString();
-            }
-            outputTopZone.SelectedIndex = clear ? 0 : _att.getGaugeOutputTopZone();
-            outputBotZone.SelectedIndex = clear ? 0 : _att.getGaugeOutputBotZone();
-            activDelay.Text = clear ? "" : ((int)_att.getGaugeOutputActivationDelay()).ToString();
-            startDelay.SelectedIndex = clear ? 0 : _att.getGaugeOutputStartupDelay();
+            // Quad 0
+            quad0WarnZone.SelectedIndex = clear ? 0 : _att.getQuad0GaugeWarningZone();
+            quad0WarnLevel.Text = clear ? "0" : _att.getQuad0GaugeWarningLevel().ToString();
+            quad0PtrWeight.SelectedIndex = clear ? 0 : _att.getQuad0GaugePointerWeight();
+            quad0InputSource.SelectedIndex = clear ? 0 : _att.getQuad0SensorType();
+            quad0Hys.Text = clear ? "2" : _att.getQuad0GaugeHysteresis().ToString();
 
-            // ADVANCE
-            ptrW8.Text = clear ? "" : _att.getGaugePointerWeight().ToString();
-            sensHys.Text = clear ? "" : _att.getGaugeHysteresis().ToString();
-            sensCoeff0.Text = clear ? "" : _att.getGaugeCoefficient0().ToString("0.0000000000");
-            sensCoeff1.Text = clear ? "" : _att.getGaugeCoefficient1().ToString("0.0000000000");
-            sensScanRt.Text = clear ? "" : _att.getGaugeSensorScanRate().ToString();
-            backLightScanRt.Text = clear ? "" : _att.getGaugeBacklightScanRate().ToString();
+            // Driver
+            outputZone.SelectedIndex = clear ? 0 : _att.getGaugeOutputZone();
+            outputThres.Text = clear ? "0" : _att.getGaugeOutputLevel().ToString();
+            outputQuad.SelectedIndex = clear ? 0 : _att.getGaugeOutputQuad();
 
-            //SPEEDO/TACH
+            // Advanced
+            curveQuad.SelectedIndex = clear ? 0 : _att.getCoeffQuad();
+            memorySlot.SelectedIndex = clear ? 0 : _att.getNvmPair();
+            sensCoeff0.Text = clear ? "0" : _att.getGaugeCoefficient0().ToString("0.0000000000");
+            sensCoeff1.Text = clear ? "0" : _att.getGaugeCoefficient1().ToString("0.0000000000");
+
+            // SPEEDO/TACH
             enableAccumulation.SelectedIndex = clear ? 0 : _att.getTotalAccumulationEnabled();
             distanceUnits.SelectedIndex = clear ? 0 : _att.getUnits();
-            tripEnabled.SelectedIndex = clear ? 0 : _att.getTripEnabled();
-            sensorEnabled.SelectedIndex = clear ? 0 : _att.getSpeedoSensor();
-            precisionPPR.SelectedIndex = clear ? 0 : _att.getPPRprecision();
-            speedoTachOutput.SelectedIndex = clear ? 0 : _att.getSpeedoTachOutput();
-            speedoPPM.Text = clear ? "" : _att.getSpeedoPPM().ToString();
-            tachPPR.Text = clear ? "" : _att.getTachPPR().ToString();
-            lcdTotalAccumulation.Text = clear ? "" : _att.getTotalAccum().ToString();
+            speedoPPM.Text = clear ? "4000" : _att.getSpeedoPPM().ToString();
+            tachPPR.Text = clear ? "25" : _att.getTachPPR().ToString();
 
             if (!clear || _connection.IsConnected)
             {
@@ -306,17 +221,18 @@ namespace XamarinAttributeProgrammer.Views
                 _loadedAtt = true;
             }
             _changeDetected = vm.Haschanges = false;
+            
         }
 
         private bool DoesFormContainsNull()
         {
             int gauge = _att.getGaugeType();
             bool answer = string.IsNullOrEmpty(voltHi.Text)         || string.IsNullOrEmpty(voltLo.Text) ||
-                          string.IsNullOrEmpty(warnThresTop.Text)   || string.IsNullOrEmpty(warnThresBot.Text) ||
-                          string.IsNullOrEmpty(outputTopThres.Text) || string.IsNullOrEmpty(outputBotThres.Text) ||
-                          string.IsNullOrEmpty(sensHys.Text)        || string.IsNullOrEmpty(ptrW8.Text) ||
-                          string.IsNullOrEmpty(sensCoeff0.Text)     || string.IsNullOrEmpty(sensCoeff1.Text) ||
-                          string.IsNullOrEmpty(sensScanRt.Text)     || string.IsNullOrEmpty(backLightScanRt.Text);
+                          string.IsNullOrEmpty(daytimeBrightness.Text) || string.IsNullOrEmpty(maxBrightness.Text) ||
+                          string.IsNullOrEmpty(outputThres.Text) ||
+
+                          string.IsNullOrEmpty(quad0Hys.Text) || string.IsNullOrEmpty(quad0WarnLevel.Text) ||
+                          string.IsNullOrEmpty(sensCoeff0.Text)     || string.IsNullOrEmpty(sensCoeff1.Text);
             // if Speedo, do not have empty PPM value
             if (gauge == 24)
             {
@@ -347,72 +263,37 @@ namespace XamarinAttributeProgrammer.Views
                     break;
                 }
             }
-
-            int home = _att.getGaugeHome();
-            int full = _att.getGaugeFull();
-            int pcb = _att.getDevice_PCB_Type();
-            // gets attributes entered and converts to a percentage
-            int percentWarnTop = (int)(Convert.ToDouble(warnThresTop.Text) / full * 100);
-            int percentWarnBot = (int)(Convert.ToDouble(warnThresBot.Text) / full * 100);
-            int percentFlash = (int)(Convert.ToDouble(flashEff.Text) / full * 100);
-            int percentDriverTop = (int)(Convert.ToDouble(outputTopThres.Text) / full * 100);
-            int percentDriverBot = (int)(Convert.ToDouble(outputBotThres.Text) / full * 100);
-
-            // only run for gauges whose home != 0
-            if (pcb == 4 || pcb == 6 || pcb == 7)
-            {
-                percentWarnTop = (int)((Convert.ToDouble(warnThresTop.Text) - (float)home) / ((float)(full - home)) * 100);
-                percentWarnBot = (int)((Convert.ToDouble(warnThresBot.Text) - (float)home) / ((float)(full - home)) * 100);
-                percentFlash = (int)((Convert.ToDouble(flashEff.Text) - (float)home) / ((float)(full - home)) * 100);
-                percentDriverTop = (int)((Convert.ToDouble(outputTopThres.Text) - (float)home) / ((float)(full - home)) * 100);
-                percentDriverBot = (int)((Convert.ToDouble(outputBotThres.Text) - (float)home) / ((float)(full - home)) * 100);
-            }
-            // fuel level takes value from 0 - 100 as %, no need to convert
-            else if (pcb == 5)
-            {
-                percentWarnTop = Convert.ToByte(warnThresTop.Text);
-                percentWarnBot = Convert.ToByte(warnThresBot.Text);
-                percentFlash = Convert.ToByte(flashEff.Text);
-                percentDriverTop = Convert.ToByte(outputTopThres.Text);
-                percentDriverBot = Convert.ToByte(outputBotThres.Text);
-
-            }
             _att.setGaugeBacklightTopVoltage(float.Parse(voltHi.Text));
             _att.setGaugeBacklightBotVoltage(float.Parse(voltLo.Text));
-            _att.setGaugeWarningTopLevel(Convert.ToByte(percentWarnTop));
-            _att.setGaugeWarningTopZone(Convert.ToByte(warnTopZone.SelectedIndex));
-            _att.setGaugeWarningBotLevel(Convert.ToByte(percentWarnBot));
-            _att.setGaugeWarningBotZone(Convert.ToByte(warnBotZone.SelectedIndex));
-            _att.setGaugeBacklightLevel(Convert.ToByte(percentFlash));
+            _att.setBacklightInput(Convert.ToByte(dimmerInput.SelectedIndex));
+            _att.setBacklightFlash(Convert.ToByte(warningLightFlash.SelectedIndex));
+            _att.setDaytimeBrightness(Convert.ToByte(maxBrightness.Text));
+            _att.setMaxBrightness(Convert.ToByte(daytimeBrightness.Text));
 
-            _att.setGaugeBacklightFlashIntensity(Convert.ToByte(flashInten.SelectedIndex));
-            _att.setGaugeBacklightZone(Convert.ToByte(flashZone.SelectedIndex));
-            _att.setGaugeOutputTopLevel(Convert.ToByte(percentDriverTop));
-            _att.setGaugeOutputTopZone(Convert.ToByte(outputTopZone.SelectedIndex));
-            _att.setGaugeOutputBotLevel(Convert.ToByte(percentDriverBot));
-            _att.setGaugeOutputBotZone(Convert.ToByte(outputBotZone.SelectedIndex));
-            _att.setGaugeOutputActivationDelay(Convert.ToByte(activDelay.Text));
-            _att.setGaugeOutputStartupDelay(Convert.ToByte(startDelay.SelectedIndex));
+            _att.setQuad0GaugeWarningLevel(Convert.ToByte(quad0WarnLevel.Text));
+            _att.setQuad0GaugeWarningZone(Convert.ToByte(quad0WarnZone.SelectedIndex));
+            _att.setQuad0GaugePointerWeight(Convert.ToByte(quad0PtrWeight.SelectedIndex));
+            _att.setQuad0SensorType(Convert.ToByte(quad0InputSource.SelectedIndex));
+            _att.setQuad0GaugeHysteresis(Convert.ToByte(quad0Hys.Text));
+            _att.setTachSensor(Convert.ToByte(tachHallEffect.SelectedIndex));
 
-            _att.setGaugePointerWeight(Convert.ToInt16(ptrW8.Text));
-            _att.setGaugeHysteresis(Convert.ToInt16(sensHys.Text));
+            _att.setGaugeOutputLevel(Convert.ToByte(outputThres.Text));
+            _att.setGaugeOutputZone(Convert.ToByte(outputZone.SelectedIndex));
+            _att.setGaugeOutputQuad(Convert.ToByte(outputQuad.SelectedIndex));
+
+            _att.setCoeffQuad(Convert.ToByte(curveQuad.SelectedIndex));
+            _att.setNvmPair(Convert.ToByte(memorySlot.SelectedIndex));
             _att.setGaugeCoefficient0(Convert.ToSingle(sensCoeff0.Text));
             _att.setGaugeCoefficient1(Convert.ToSingle(sensCoeff1.Text));
-            _att.setGaugeSensorScanRate(Convert.ToInt16(sensScanRt.Text));
-            _att.setGaugeBacklightScanRate(Convert.ToInt16(backLightScanRt.Text));
 
             //Speedo/Tach
             _att.setTotalAccumulationEnabled(Convert.ToByte(enableAccumulation.SelectedIndex));
             _att.setUnits(Convert.ToByte(distanceUnits.SelectedIndex));
-            _att.setTripEnabled(Convert.ToByte(tripEnabled.SelectedIndex));
-            _att.setSpeedoSensor(Convert.ToByte(sensorEnabled.SelectedIndex));
-            _att.setPPRprecision(Convert.ToByte(precisionPPR.SelectedIndex));
-            _att.setSpeedoTachOutput(Convert.ToByte(speedoTachOutput.SelectedIndex));
             _att.setSpeedoPPM(Convert.ToInt16(speedoPPM.Text));
             _att.setTachPPR(Convert.ToByte(tachPPR.Text));
-            _att.setTotalAccum(float.Parse(lcdTotalAccumulation.Text));
-
+            
             return true;
+            
         }
 
         /// <summary>
@@ -549,28 +430,6 @@ namespace XamarinAttributeProgrammer.Views
                 }
             }
 
-            // do not use gauge range for min/max for warning levels
-            int pcb = _att.getDevice_PCB_Type();
-            if (!(pcb == 5))
-            {
-                float value;
-                float.TryParse(sndr.Text, out value);
-                max = _att.getGaugeFull();
-                min = _att.getGaugeHome();
-                value = Math.Max(min, value);
-                value = Math.Min(max, value);
-                sndr.Text = value.ToString();
-            }
-            else
-            {
-                float value;
-                float.TryParse(sndr.Text, out value);
-                value = Math.Max(0, value);
-                value = Math.Min(100, value);
-                sndr.Text = value.ToString();
-            }
-            _changeDetected = vm.Haschanges = true;
-
         }
         private void EntryText_Changed(object sender, EventArgs e)
         {
@@ -654,7 +513,7 @@ namespace XamarinAttributeProgrammer.Views
 
             if (!_loadedAtt) return; // don't bother with this yet when we first enter;
 
-            _att.setGaugeMode(Convert.ToByte(sndr.SelectedIndex));
+            //_att.setGaugeMode(Convert.ToByte(sndr.SelectedIndex));
             ComboBox_Changed(sender, e);
         }
 
@@ -698,15 +557,78 @@ namespace XamarinAttributeProgrammer.Views
             int val = vm.GaugeType.Select(x => x.Key).ToList().IndexOf(sndr.SelectedItem.ToString());
 
             // Check to see if the index is set first
-            GaugeType gaugeTye = (GaugeType)(val >= 0 && val <= 25 ?   val : // we want to ignore the last index "Gauge None"
+            GaugeType gaugeType = (GaugeType)(val >= 0 && val <= 18 ?   val : // we want to ignore the last index "Gauge None"
                                                                        65535);
             // If the gauge does not have any attributes, just use factory defaults
             if (!_att.hasAttributes)
                 _att.ResetFactoryDefaults();
+            // Set common Attributes for all gauges
+            _att.setGaugeBacklightTopVoltage(18.1f);
+            _att.setGaugeBacklightBotVoltage(7.8f);
+            _att.setBacklightInput(0);
+            _att.setBacklightFlash(0);
+            _att.setMaxBrightness(100);
+            _att.setDaytimeBrightness(0);
 
             // Switch copied from AP V1.x
-            switch (gaugeTye)
+            switch (gaugeType)
             {
+                case GaugeType.ATT_GAUGE_4kTACH_80mphSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_4kTACH_120mphSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_6kTACH_120mphSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_8kTACH_120mphSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_8kTACH_160mphSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_3kTACH_200kmSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_6kTACH_200kmSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_8kTACH_200kmSPEEDO:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_30psiBOOST_1600PYRO:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_40psiBOOST_1600PYRO:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_60psiBOOST_2000YRO:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_2barBOOST_900PYRO:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_DUAL_1600PYRO:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_DEF_FUEL:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_TEMP_FUEL:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_TEMP_PRESSURE_FUEL_VOLTS:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+                case GaugeType.ATT_GAUGE_DEMO_2_1:
+                    _speedoTach = vm.Speedotach = true;
+                    break;
+                case GaugeType.ATT_GAUGE_DEMO_4_1:
+                    _speedoTach = vm.Speedotach = false;
+                    break;
+            }
+            /*
                 case GaugeType.ATT_GAUGE_PRI_AIR_PRESS_175: // Air Pres 0-175
                     _att.setGaugeFull(175);
                     _att.setGaugeHome(0);
@@ -1061,46 +983,17 @@ namespace XamarinAttributeProgrammer.Views
                 default:
                     break;
             }
+            
             if (gaugeTye == GaugeType.ATT_GAUGE_DEMO)
                 _att.setGaugeMode(1);
             else
                 _att.setGaugeMode(0);
-
+            */
             FillEntry(skipPickerUpdate: true);
             ComboBox_Changed(sender, e);
+            
         }
 
-        // Event handler for the Flash and Warning lights buttons
-        private async void ToggleBtns_ClickedAsync(object sender, EventArgs e)
-        {
-            string mode = (sender as Button).ClassId;
-            byte[] cmd = null;
-            try
-            {
-                switch (mode)
-                {
-                    case "F": // Flash
-                        cmd = GaugeCommands.WARN_FLASH_TOGGLE;
-                        Toast.ShowMessage(this, "Flashing requested");
-                        DiagnosticPage.AddToLog("I: Toggled Flash");
-                        break;
-                    case "W": // Warning
-                        cmd = GaugeCommands.WARN_TOGGLE;
-                        Toast.ShowMessage(this, "Warning light requested");
-                        DiagnosticPage.AddToLog("I: Toggled Warning light");
-                        break;
-                    default:
-                        break;
-                }
-
-                if (cmd != null)
-                    await _connection.TryWriteAsync(cmd);
-            }
-            catch (Exception ex)
-            {
-                DiagnosticPage.AddToLog("ETBC: " + ex.Message);
-            }
-        }
 
         private async void OnExpander_TappedAsync(object sender, EventArgs e)
         {
@@ -1112,6 +1005,7 @@ namespace XamarinAttributeProgrammer.Views
                 await DisplayAlert(Resourcer.Warning, Resourcer.getResStrVal("attributeAdvanceWarning"), Resourcer.Ok);
                 _alreadyShowAdvanceWarning = true;
             }
+            
         }
 
         // Reset the page to display the attribute that is on the gauge
@@ -1166,5 +1060,6 @@ namespace XamarinAttributeProgrammer.Views
             _changeDetected = false;
             vm.Haschanges = false;
         }
+        
     }
 }

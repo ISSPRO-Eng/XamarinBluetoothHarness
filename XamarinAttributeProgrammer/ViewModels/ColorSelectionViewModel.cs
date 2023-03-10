@@ -170,6 +170,7 @@ namespace XamarinAttributeProgrammer.ViewModels
 
         public void RetrieveColorFromGauge()
         {
+            /*
             // Currently on backlight
             SetRGBColorToFocus(_attributes.getBacklightColorRed(),
                           _attributes.getBacklightColorGreen(),
@@ -182,6 +183,7 @@ namespace XamarinAttributeProgrammer.ViewModels
                           _attributes.getPointerColorBlue());
 
             FocusColorOn = BACKLIGHT;
+            */
         }
         
         public void SetColorValue(int value, RGB col)
@@ -310,21 +312,21 @@ namespace XamarinAttributeProgrammer.ViewModels
 
         public void SetGaugeBacklightTo(int r, int g, int b)
         {
+            /*
             _attributes.setBacklightColorRed((short)r);
             _attributes.setBacklightColorGreen((short)g);
             _attributes.setBacklightColorBlue((short)b);
-            _attributes.setBacklightColorWhite(0);
 
             // collect our mssage to send to the gauge
             //byte[] cmd = GaugeCommands.StringToBytes(_attributes.attributeMessageColorPreviewPackage());
             //return await _connection.TXChannel.WriteAsync(cmd);
+            */
         }
         public void SetGaugeNeedleTo(int r, int g, int b)
         {
             _attributes.setPointerColorRed((short)r);
             _attributes.setPointerColorGreen((short)g);
             _attributes.setPointerColorBlue((short)b);
-            _attributes.setPointerColorWhite(0);
 
             // collect our mssage to send to the gauge
             //byte[] cmd = GaugeCommands.StringToBytes(_attributes.attributeMessageColorPreviewPackage());

@@ -42,13 +42,6 @@
                    HorizontalOptions="FillAndExpand"
                    MaxLength="12"
                    Grid.Column="1"/>
-            <Button Text="{Binding renameBtnTxt}"
-                    FontSize="14"
-                    HorizontalOptions="FillAndExpand"
-                    Clicked="UpdateNameBtn_ClickedAsync"
-                    Grid.Column="2"
-                    BackgroundColor="{StaticResource Pass}"
-                    />
         </Grid>
         <Label Text="{Binding ConnectionInfoString}" 
                FontSize="Body"

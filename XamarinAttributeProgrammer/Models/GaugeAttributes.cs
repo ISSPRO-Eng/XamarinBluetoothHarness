@@ -11,86 +11,175 @@ namespace XamarinAttributeProgrammer.Models
     public class GaugeAttributes
     {
 
-       
-       // LOOK AT GaugeCommands.cs to learn more about the packets the commands fall into
+
+        // LOOK AT GaugeCommands.cs to learn more about the packets the commands fall into
         public bool hasAttributes = false;
         public readonly int a = 1; //not sure yet how to do this
-        private readonly float[] ISSPRO_PCA_TYPES = {  0.0f,                         // ISSPRO_PCA_165S
-                                        (float)(3.6 * (10000) / (10000 + 4700 )),    // ISSPRO_PCA_165S_001
-                                        (float)(3.6 * (10000) / (10000 + 10000)),    // ISSPRO_PCA_165S_002
-                                        (float)(3.6 * (10000) / (10000 + 100000)),   // ISSPRO_PCA_165S_003
-                                        (float) 3.6,                                 // ISSPRO_PCA_165S_004
-                                        (float)(3.6 * (4700)  / (10000 + 4700)),     // ISSPRO_PCA_165S_005
-                                        (float)(3.6 * (100000)/ (10000 + 100000)),   // ISSPRO_PCA_165S_006
-                                        (float)(3.6 * (200000)/ (10000 + 200000)),   // ISSPRO_PCA_165S_007
-                                        (float) (3.6 * (100000)/ (100000 + 20000)),  // ISSPRO_PCA_176S
-                                        (float) (3.6 * (54900)/ (54900 + 200000)),   // ISSPRO_PCA_182S
-                                        (float) (3.6 * (4700)/ (4700 + 20000)),      // ISSPRO_PCA_182S_001
-                                        (float) (3.6 * (10000)/ (10000 + 20000)),    // ISSPRO_PCA_182S_002
-                                        (float) (3.6 * (20000)/ (20000 + 4700)) };   // ISSPRO_PCA_182S_003
+        private static int gauge_type;
+        private static byte quadrant_selected;
 
-
-
-    private readonly float ISSPRO_PCA_THRESHOLD = 0.1f;
         /* Connect Fragment Variables*/
         private static string device_Name;
         private static string device_version;
-        private static string device_SN;
-        private static int device_PCB_Type;
         private static Guid device_BTGUID;
 
-        /* Color Editor Fragment Variables*/
-        private static short RGBW_backlight_red;
-        private static short RGBW_backlight_green;
-        private static short RGBW_backlight_blue;
-        private static short RGBW_backlight_white;
+        /* Quad0 Specific Attributes FFA1 */
+        // Byte 1
+        private static byte quad0Location = 0;
+        private static byte quad0SensorType;
+        private static byte quad0_gauge; //This is now size short (16-bits; but need larger bits to store as unsigned)
+
+        // Byte 2
+        private static short quad0_hysteresis;
+        private static short quad0_gauge_pointer_weight;
+        private static byte quad0_curve;
+
+        // Byte 3
+        private static byte quad0_warning_zone;
+        private static byte quad0_warning_threshold;
+
+        // Byte 4
+        private static int quad0_gauge_home;
+
+        // Byte 5 and lower 5 bits of Byte 6
+        private static int quad0_gauge_full;
+
+        /* Quad1 Specific Attributes FFA1 */
+        // Byte 1
+        private static byte quad1Location = 1;
+        private static byte quad1SensorType;
+        private static byte quad1_gauge; //This is now size short (16-bits; but need larger bits to store as unsigned)
+
+        // Byte 2
+        private static short quad1_hysteresis;
+        private static short quad1_gauge_pointer_weight;
+        private static byte quad1_curve;
+
+        // Byte 3
+        private static byte quad1_warning_zone;
+        private static byte quad1_warning_threshold;
+
+        // Byte 4
+        private static int quad1_gauge_home;
+
+        // Byte 5 and lower 5 bits of Byte 6
+        private static int quad1_gauge_full;
+
+        /* Quad2 Specific Attributes FFA1 */
+        // Byte 1
+        private static byte quad2Location = 2;
+        private static byte quad2SensorType;
+        private static byte quad2_gauge; //This is now size short (16-bits; but need larger bits to store as unsigned)
+
+        // Byte 2
+        private static short quad2_hysteresis;
+        private static short quad2_gauge_pointer_weight;
+        private static byte quad2_curve;
+
+        // Byte 3
+        private static byte quad2_warning_zone;
+        private static byte quad2_warning_threshold;
+
+        // Byte 4
+        private static int quad2_gauge_home;
+
+        // Byte 5 and lower 5 bits of Byte 6
+        private static int quad2_gauge_full;
+
+        /* Quad3 Specific Attributes FFA1 */
+        // Byte 1
+        private static byte quad3Location = 3;
+        private static byte quad3SensorType;
+        private static byte quad3_gauge; //This is now size short (16-bits; but need larger bits to store as unsigned)
+
+        // Byte 2
+        private static short quad3_hysteresis;
+        private static short quad3_gauge_pointer_weight;
+        private static byte quad3_curve;
+
+        // Byte 3
+        private static byte quad3_warning_zone;
+        private static byte quad3_warning_threshold;
+
+        // Byte 4
+        private static int quad3_gauge_home;
+
+        // Byte 5 and lower 5 bits of Byte 6
+        private static int quad3_gauge_full;
+
+        // Color Bytes 6 7 and 8
+        private static short RGBW_backlight_red_quad0;
+        private static short RGBW_backlight_green_quad0;
+        private static short RGBW_backlight_blue_quad0;
+        private static short RGBW_backlight_white_quad0;
+
+        private static short RGBW_backlight_red_quad1;
+        private static short RGBW_backlight_green_quad1;
+        private static short RGBW_backlight_blue_quad1;
+        private static short RGBW_backlight_white_quad1;
+
+        private static short RGBW_backlight_red_quad2;
+        private static short RGBW_backlight_green_quad2;
+        private static short RGBW_backlight_blue_quad2;
+        private static short RGBW_backlight_white_quad2;
+
+        private static short RGBW_backlight_red_quad3;
+        private static short RGBW_backlight_green_quad3;
+        private static short RGBW_backlight_blue_quad3;
+        private static short RGBW_backlight_white_quad3;
+
+        /* FFA2 */
+
+        // Byte 1
+        private static byte backlight_input;
+        private static byte warning_light_backlight_flash;
+        private static byte gauge_pointer_type;
+        private static byte daytime_brightness;
+
+        // Bytes 2, 3, 4
+        private static float gauge_backlight_top_voltage; // When sending to gauge, we need to multiply by 10 and cast it to int
+        private static float gauge_backlight_bot_voltage; // so that we can send it as a short, since it only allocates 2 byte for it
+
+        // Byte 5
+        private static byte max_brightness;
+
+        /* Shared Color Editor Fragment Variables*/
+        // Bytes 6, 7, 8
         private static short RGBW_pointer_red;
         private static short RGBW_pointer_green;
         private static short RGBW_pointer_blue;
         private static short RGBW_pointer_white;
 
-        /* Attributes Fragment Variables*/
-        private static int gauge_type; //This is now size short (16-bits; but need larger bits to store as unsigned)
-        private static int gauge_home;
-        private static int gauge_full;
-        private static short gauge_sweep; //Note: Any Byte that goes over 127 needs to be stored as short to avoid unsigned issues
-        private static short gauge_min_valid_reading;
-        private static short gauge_max_valid_reading;
-        private static short gauge_sensor_curve;
-        private static short gauge_pointer_weight;
-        private static short gauge_hysteresis; //Note: Any Byte that goes over 127 needs to be stored as short to avoid unsigned issues
-        private static short gauge_sensor_scan_rate;
-        private static float gauge_coefficient0 = 0.0000000000f; //0.0f = single precision float
-        private static float gauge_coefficient1 = 0.0000000000f;
-        private static byte gauge_mode;
-        private static byte gauge_pointer_type;
-        private static byte gauge_backlight_Flash_intensity;
-        private static byte gauge_backlight_Flash_level;
-        private static byte gauge_backlight_Flash_zone;
-        private static float gauge_backlight_top_voltage; // When sending to gauge, we need to multiply by 10 and cast it to int
-        private static float gauge_backlight_bot_voltage; // so that we can send it as a short, since it only allocates 2 byte for it
-        private static byte gauge_warning_bot_level;
-        private static byte gauge_warning_bot_zone;
-        private static byte gauge_warning_top_level;
-        private static byte gauge_warning_top_zone;
-        private static byte gauge_output_bot_level;
-        private static byte gauge_output_bot_zone;
-        private static byte gauge_output_top_level;
-        private static byte gauge_output_top_zone;
-        private static byte gauge_output_startup_delay;
-        private static byte gauge_output_activation_delay;
-        private static short gauge_backlight_scan_rate;
 
-        // Speedo/Tach Settings
+        /* FFA3 */
+
+        // Byte 1
         private static byte enable_accumulation;
+        private static byte nvm_coeff_pair;
         private static byte speedo_tach_units;
         private static byte speedo_sensor;
-        private static byte speedo_tach_trip_enable;
-        private static byte tach_ppr_precision;
-        private static byte speedo_tach_output;
-        private static short speedo_PPM;
-        private static byte tach_PPR;
+        private static byte tach_sensor;
+        private static byte coeff_quad;
+        private static byte output_quad;
+        private static byte canbus_speed;
+
+        // Byte 2, 3, 4
         private static float lcd_total_accumulation = 0.0000000000f;
+
+        // Byte 5 and 6
+        private static short speedo_PPM;
+
+        // Byte 7
+        private static byte tach_PPR;
+
+        //Byte 8
+        private static byte gauge_output_level;
+        private static byte gauge_output_zone;
+
+        /* FFA4 */
+        private static float gauge_coefficient0 = 0.0000000000f; //0.0f = single precision float
+        private static float gauge_coefficient1 = 0.0000000000f;
+
 
         public GaugeAttributes()
         {
@@ -101,93 +190,155 @@ namespace XamarinAttributeProgrammer.Models
         {
             device_Name = "new name";
             device_version = "00.00.00";
-            device_PCB_Type = -4095; //put the value way out of range
-            device_SN = "0x00000000";
-            device_version = "00.00.00";
             device_BTGUID = new Guid();
-            RGBW_backlight_red = 0;
-            RGBW_backlight_green = 0;
-            RGBW_backlight_blue = 0;
-            RGBW_backlight_white = 0;
-            RGBW_pointer_red = 0;
+
+            RGBW_backlight_red_quad0 = 0;
+            RGBW_backlight_green_quad0 = 255;
+            RGBW_backlight_blue_quad0 = 0;
+            RGBW_backlight_white_quad0 = 0;
+
+            RGBW_backlight_red_quad1 = 0;
+            RGBW_backlight_green_quad1 = 255;
+            RGBW_backlight_blue_quad1 = 0;
+            RGBW_backlight_white_quad1 = 0;
+
+            RGBW_backlight_red_quad2 = 0;
+            RGBW_backlight_green_quad2 = 255;
+            RGBW_backlight_blue_quad2 = 0;
+            RGBW_backlight_white_quad2 = 0;
+
+            RGBW_backlight_red_quad3 = 0;
+            RGBW_backlight_green_quad3 = 255;
+            RGBW_backlight_blue_quad3 = 0;
+            RGBW_backlight_white_quad3 = 0;
+
+            quad0SensorType = 0;
+            quad0_gauge = 0;           //This is now size short (16-bits; but need larger bits to store as unsigned)
+            quad0_hysteresis = 0;
+            quad0_gauge_pointer_weight = 0;
+            quad0_curve = 0;
+            quad0_warning_zone = 0;
+            quad0_warning_threshold = 0;
+            quad0_gauge_home = 0;
+            quad0_gauge_full = 0;
+
+            quad1SensorType = 0;
+            quad1_gauge = 0;           //This is now size short (16-bits; but need larger bits to store as unsigned)
+            quad1_hysteresis = 0;
+            quad1_gauge_pointer_weight = 0;
+            quad1_curve = 0;
+            quad1_warning_zone = 0;
+            quad1_warning_threshold = 0;
+            quad1_gauge_home = 0;
+            quad1_gauge_full = 0;
+
+            quad2SensorType = 0;
+            quad2_gauge = 0;           //This is now size short (16-bits; but need larger bits to store as unsigned)
+            quad2_hysteresis = 0;
+            quad2_gauge_pointer_weight = 0;
+            quad2_curve = 0;
+            quad2_warning_zone = 0;
+            quad2_warning_threshold = 0;
+            quad2_gauge_home = 0;
+            quad2_gauge_full = 0;
+
+            quad3SensorType = 0;
+            quad3_gauge = 0;           //This is now size short (16-bits; but need larger bits to store as unsigned)
+            quad3_hysteresis = 0;
+            quad3_gauge_pointer_weight = 0;
+            quad3_curve = 0;
+            quad3_warning_zone = 0;
+            quad3_warning_threshold = 0;
+            quad3_gauge_home = 0;
+            quad3_gauge_full = 0;
+
+            /* FFA2 */
+            // Byte 1
+            backlight_input = 0;
+            warning_light_backlight_flash = 0;
+            gauge_pointer_type = 0;
+            daytime_brightness = 100;
+
+            // Bytes 2, 3, 4
+            gauge_backlight_top_voltage = 18; // When sending to gauge, we need to multiply by 10 and cast it to int
+            gauge_backlight_bot_voltage = 7; // so that we can send it as a short, since it only allocates 2 byte for it
+
+            // Byte 5
+            max_brightness = 100;
+
+            /* Shared Color Editor Fragment Variables*/
+            // Bytes 6, 7, 8
+            RGBW_pointer_red = 255;
             RGBW_pointer_green = 0;
             RGBW_pointer_blue = 0;
             RGBW_pointer_white = 0;
 
-            /* Attributes Fragment Variables*/
-            gauge_type = 65535; //invalidate this until its set, note -1 is also 255 in byte format
-            gauge_home = 0;
-            gauge_full = 0;
-            gauge_sweep = 0;
-            gauge_min_valid_reading = 0;
-            gauge_max_valid_reading = 0;
-            gauge_sensor_curve = 0;
-            gauge_pointer_weight = 0;
-            gauge_hysteresis = 0;
-            gauge_sensor_scan_rate = 30; //in milliseconds
-            gauge_backlight_scan_rate = 100; // mSec
-            gauge_coefficient0 = 0;
-            gauge_coefficient1 = 0;
-            gauge_mode = 0;
-            gauge_pointer_type = 0;
-            gauge_backlight_Flash_intensity = 0;
-            gauge_backlight_Flash_level = 0;
-            gauge_backlight_Flash_zone = 0; // Toggle for low/high
-            gauge_backlight_top_voltage = 18.1f;
-            gauge_backlight_bot_voltage = 7.8f;
-            gauge_warning_bot_level = 0;
-            gauge_warning_bot_zone = 0; // Toggle for low/high
-            gauge_warning_top_level = 0;
-            gauge_warning_top_zone = 0; // Toggle for low/high
-            gauge_output_bot_level = 0;
-            gauge_output_bot_zone = 0; // Toggle for low/high
-            gauge_output_top_level = 0;
-            gauge_output_top_zone = 0; // Toggle for low/high
-            gauge_output_startup_delay = 0;
-            gauge_output_activation_delay = 0;
-            enable_accumulation = 0; // toggle enabled/disabled
-            speedo_tach_units = 0; // toggle miles/km
-            speedo_sensor = 0; // toggle enabled/disabled
-            speedo_tach_trip_enable = 0; // toggle enabled/disabled
-            tach_ppr_precision = 0; // toggle float/integer
-            speedo_tach_output = 0; // toggle normal/one time/repeating
-            speedo_PPM = 0;
-            tach_PPR = 0;
-            lcd_total_accumulation = 0;
-    }
+
+            /* FFA3 */
+
+            // Byte 1
+            enable_accumulation = 0;
+            nvm_coeff_pair = 0;
+            speedo_tach_units = 0;
+            speedo_sensor = 0;
+            tach_sensor = 0;
+            coeff_quad = 0;
+            output_quad = 0;
+            canbus_speed = 0;
+
+            // Byte 2, 3, 4
+            lcd_total_accumulation = 0.0000000000f;
+
+            // Byte 5 and 6
+            speedo_PPM = 4000;
+
+            // Byte 7
+            tach_PPR = 255;
+
+            //Byte 8
+            gauge_output_level = 0;
+            gauge_output_zone = 0;
+
+            /* FFA4 */
+            gauge_coefficient0 = 0.0000000000f; //0.0f = single precision float
+            gauge_coefficient1 = 0.0000000000f;
+        }
 
         public void ResetFactoryDefaults()
         {
             // Reset all the attributes that all the gauge types share in common.
-            // The rest of the attributes at set when the user specified the gauge type in AttributesPage.xaml.cs > GaugeType_SelectedAsync()
-            gauge_backlight_scan_rate = 100; // mSec
-            gauge_coefficient0 = 0;
-            gauge_coefficient1 = 0;
+            // The gauge specific attributes at set when the user specified the gauge type in AttributesPage.xaml.cs > GaugeType_SelectedAsync()
+            //FFA2
+            backlight_input = 0;
+            warning_light_backlight_flash = 0;
             gauge_pointer_type = 0;
-            gauge_backlight_Flash_intensity = 0;
-            gauge_backlight_Flash_level = 0;
-            gauge_backlight_Flash_zone = 0; // Toggle for low/high
+            daytime_brightness = 100;
             gauge_backlight_top_voltage = 18.1f;
             gauge_backlight_bot_voltage = 7.8f;
-            gauge_warning_bot_level = 0;
-            gauge_warning_bot_zone = 0; // Toggle for low/high
-            gauge_warning_top_level = 0;
-            gauge_warning_top_zone = 0; // Toggle for low/high
-            gauge_output_bot_level = 0;
-            gauge_output_bot_zone = 0; // Toggle for low/high
-            gauge_output_top_level = 0;
-            gauge_output_top_zone = 0; // Toggle for low/high
-            gauge_output_startup_delay = 0;
-            gauge_output_activation_delay = 0;
-            enable_accumulation = 0; // toggle enabled/disabled
-            speedo_tach_units = 0; // toggle miles/km
-            speedo_sensor = 0; // toggle enabled/disabled
-            speedo_tach_trip_enable = 0; // toggle enabled/disabled
-            tach_ppr_precision = 0; // toggle float/integer
-            speedo_tach_output = 0; // toggle normal/one time/repeating
-            speedo_PPM = 0;
-            tach_PPR = 0;
+            max_brightness = 100;
+            RGBW_pointer_red = 255;
+            RGBW_pointer_green = 0;
+            RGBW_pointer_blue = 0;
+            RGBW_pointer_white = 0;
 
+            //FFA3
+            enable_accumulation = 0;
+            lcd_total_accumulation = 0;
+            nvm_coeff_pair = 0;
+            speedo_tach_units = 1;
+            speedo_sensor = 0;
+            tach_sensor = 0;
+            coeff_quad = 0;
+            output_quad = 0;
+            canbus_speed = 0;
+            speedo_PPM = 4000;
+            tach_PPR = 255;
+            gauge_output_level = 0;
+            gauge_output_zone = 0;
+            
+            //FFA4
+            gauge_coefficient0 = 0;
+            gauge_coefficient1 = 0;
             hasAttributes = true;
         }
 
@@ -208,35 +359,6 @@ namespace XamarinAttributeProgrammer.Models
         {
             device_version = name;
         }
-        public void setDevice_SN(string SN)
-        {
-            device_SN = SN;
-        }
-        public string getDevice_SN()
-        {
-            return device_SN;
-        }
-        public void setDevice_PCB_Type(short pcb)
-        {
-            device_PCB_Type = (int)pcb;
-        }
-        public int getDevice_PCB_Type()
-        { //TODO: varify this works properly
-          //quick range check ; incase we were a negative value
-            device_PCB_Type = device_PCB_Type > 4095 ? 0 : device_PCB_Type; //TODO: check on this
-            float mBoard = (float)(device_PCB_Type * 3.6) / 4095;
-
-            for (int i = 0; i < ISSPRO_PCA_TYPES.Length; i++)
-            {
-                if (Math.Abs(mBoard - ISSPRO_PCA_TYPES[i]) < ISSPRO_PCA_THRESHOLD)
-                {
-                    //we have a match
-                    return i;
-                }
-
-            }
-            return 255; //error here
-        }
 
         public void setGUID(Guid id)
         {
@@ -246,107 +368,356 @@ namespace XamarinAttributeProgrammer.Models
         {
             return device_BTGUID;
         }
+        public void setQuadrantSlected(byte val)
+        {
+            quadrant_selected = val;
+        }
+        public byte getQuadrantSelected()
+        {
+            return quadrant_selected;
+        }
+        public void setBacklightInput(byte val)
+        {
+            backlight_input = val;
+        }
+        public byte getBacklightInput()
+        {
+            return backlight_input;
+        }
+        public void setBacklightFlash(byte val)
+        {
+            warning_light_backlight_flash = val;
+        }
+        public byte getBacklightFlash()
+        {
+            return warning_light_backlight_flash;
+        }
+        public byte getDaytimeBrightness()
+        {
+            return max_brightness;
+        }
+        public void setDaytimeBrightness(byte val)
+        {
+            daytime_brightness = val;
+        }
+        public byte getMaxBrightness()
+        {
+            return daytime_brightness;
+        }
+        public void setMaxBrightness(byte val)
+        {
+            max_brightness = val;
+        }
+        public byte getNvmPair()
+        {
+            return nvm_coeff_pair;
+        }
+        public void setNvmPair(byte val)
+        {
+            nvm_coeff_pair = val;
+        }
+        public byte getCoeffQuad()
+        {
+            return coeff_quad;
+        }
+        public void setCoeffQuad(byte val)
+        {
+            coeff_quad = val;
+        }
+        public byte getCanbusSpeed()
+        {
+            return canbus_speed;
+        }
+        public void setCanbusSPeed(byte val)
+        {
+            canbus_speed = val;
+        }
+        public void setQuad0GaugeType(byte val)
+        {
+            quad0_gauge = val;
+        }
+        public byte getQuad0GaugeType()
+        {
+            return quad0_gauge;
+        }
+        public void setQuad1GaugeType(byte val)
+        {
+            quad1_gauge = val;
+        }
+        public byte getQuad1GaugeType()
+        {
+            return quad1_gauge;
+        }
+        public void setQuad2GaugeType(byte val)
+        {
+            quad2_gauge = val;
+        }
+        public byte getQuad2GaugeType()
+        {
+            return quad2_gauge;
+        }
+        public void setQuad3GaugeType(byte val)
+        {
+            quad3_gauge = val;
+        }
+        public byte getQuad3GaugeType()
+        {
+            return quad3_gauge;
+        }
+        public void setQuad0SensorType(byte val)
+        {
+            quad0SensorType = val;
+        }
+        public byte getQuad0SensorType()
+        {
+            return quad0SensorType;
+        }
+        public void setQuad1SensorType(byte val)
+        {
+            quad1SensorType = val;
+        }
+        public byte getQuad1SensorType()
+        {
+            return quad1SensorType;
+        }
+        public void setQuad2SensorType(byte val)
+        {
+            quad2SensorType = val;
+        }
+        public byte getQuad2SensorType()
+        {
+            return quad2SensorType;
+        }
+        public void setQuad3SensorType(byte val)
+        {
+            quad3SensorType = val;
+        }
+        public byte getQuad3SensorType()
+        {
+            return quad3SensorType;
+        }
+        public void setQuad0SensorCurve(byte val)
+        {
+            quad0_curve = val;
+        }
+        public byte getQuad0SensorCurve()
+        {
+            return quad0_curve;
+        }
+        public void setQuad1SensorCurve(byte val)
+        {
+            quad1_curve = val;
+        }
+        public byte getQuad1SensorCurve()
+        {
+            return quad1_curve;
+        }
+        public void setQuad2SensorCurve(byte val)
+        {
+            quad2_curve = val;
+        }
+        public byte getQuad2SensorCurve()
+        {
+            return quad2_curve;
+        }
+        public void setQuad3SensorCurve(byte val)
+        {
+            quad3_curve = val;
+        }
+        public byte getQuad3SensorCurve()
+        {
+            return quad3_curve;
+        }
 
         /* Color Fragment Methods*/
-        public void setBacklightColorRed(short val)
+        public void setQuad0BacklightColorRed(short val)
         {
-            RGBW_backlight_red = val;
+            RGBW_backlight_red_quad0 = val;
         }
+        public short getQuad0BacklightColorRed()
+        {
+            return RGBW_backlight_red_quad0;
+        }
+
+        public void setQuad1BacklightColorRed(short val)
+        {
+            RGBW_backlight_red_quad1 = val;
+        }
+        public short getQuad1BacklightColorRed()
+        {
+            return RGBW_backlight_red_quad1;
+        }
+
+        public void setQuad2BacklightColorRed(short val)
+        {
+            RGBW_backlight_red_quad2 = val;
+        }
+        public short getQuad2BacklightColorRed()
+        {
+            return RGBW_backlight_red_quad2;
+        }
+
+        public void setQuad3BacklightColorRed(short val)
+        {
+            RGBW_backlight_red_quad3 = val;
+        }
+        public short getQuad3BacklightColorRed()
+        {
+            return RGBW_backlight_red_quad3;
+        }
+
         public void setPointerColorRed(short val)
         {
             RGBW_pointer_red = val;
-        }
-        public short getBacklightColorRed()
-        {
-            return RGBW_backlight_red;
         }
         public short getPointerColorRed()
         {
             return RGBW_pointer_red;
         }
 
-        public void setBacklightColorGreen(short val)
+        public void setQuad0BacklightColorGreen(short val)
         {
-            RGBW_backlight_green = val;
+            RGBW_backlight_green_quad0 = val;
         }
+
+        public short getQuad0BacklightColorGreen()
+        {
+            return RGBW_backlight_green_quad0;
+        }
+
+        public void setQuad1BacklightColorGreen(short val)
+        {
+            RGBW_backlight_green_quad1 = val;
+        }
+
+        public short getQuad1BacklightColorGreen()
+        {
+            return RGBW_backlight_green_quad1;
+        }
+
+        public void setQuad2BacklightColorGreen(short val)
+        {
+            RGBW_backlight_green_quad2 = val;
+        }
+
+        public short getQuad2BacklightColorGreen()
+        {
+            return RGBW_backlight_green_quad2;
+        }
+
+        public void setQuad3BacklightColorGreen(short val)
+        {
+            RGBW_backlight_green_quad0 = val;
+        }
+
+        public short getQuad3BacklightColorGreen()
+        {
+            return RGBW_backlight_green_quad3;
+        }
+
         public void setPointerColorGreen(short val)
         {
             RGBW_pointer_green = val;
-        }
-        public short getBacklightColorGreen()
-        {
-            return RGBW_backlight_green;
         }
         public short getPointerColorGreen()
         {
             return RGBW_pointer_green;
         }
-        public void setBacklightColorBlue(short val)
+
+        public void setQuad0BacklightColorBlue(short val)
         {
-            RGBW_backlight_blue = val;
+            RGBW_backlight_blue_quad0 = val;
         }
+        public short getQuad0BacklightColorBlue()
+        {
+            return RGBW_backlight_blue_quad0;
+        }
+
+        public void setQuad1BacklightColorBlue(short val)
+        {
+            RGBW_backlight_blue_quad1 = val;
+        }
+        public short getQuad1BacklightColorBlue()
+        {
+            return RGBW_backlight_blue_quad1;
+        }
+
+        public void setQuad2BacklightColorBlue(short val)
+        {
+            RGBW_backlight_blue_quad2 = val;
+        }
+        public short getQuad2BacklightColorBlue()
+        {
+            return RGBW_backlight_blue_quad2;
+        }
+
+        public void setQuad3BacklightColorBlue(short val)
+        {
+            RGBW_backlight_blue_quad3 = val;
+        }
+        public short getQuad3BacklightColorBlue()
+        {
+            return RGBW_backlight_blue_quad3;
+        }
+
         public void setPointerColorBlue(short val)
         {
             RGBW_pointer_blue = val;
-        }
-        public short getBacklightColorBlue()
-        {
-            return RGBW_backlight_blue;
         }
         public short getPointerColorBlue()
         {
             return RGBW_pointer_blue;
         }
-        public void setBacklightColorWhite(short val)
+
+        public void SetQuad0BackLightColor(short? r, short? g, short? b)
         {
-            RGBW_backlight_white = val;
-        }
-        public void setPointerColorWhite(short val)
-        {
-            RGBW_pointer_white = val;
-        }
-        public short getBacklightColorWhite()
-        {
-            return RGBW_backlight_white;
-        }
-        public short getPointerColorWhite()
-        {
-            return RGBW_pointer_white;
+            if (r.HasValue && g.HasValue && b.HasValue)
+            {
+                setQuad0BacklightColorRed(r.Value);
+                setQuad0BacklightColorGreen(g.Value);
+                setQuad0BacklightColorBlue(b.Value);
+            }
         }
 
-        public void SetBackLightColor(short? r, short? g, short? b, short? w)
+        public void SetQuad1BackLightColor(short? r, short? g, short? b)
         {
-            if (!w.HasValue && r.HasValue && g.HasValue && b.HasValue)
+            if (r.HasValue && g.HasValue && b.HasValue)
             {
-                setBacklightColorRed(r.Value);
-                setBacklightColorGreen(g.Value);
-                setBacklightColorBlue(b.Value);
+                setQuad1BacklightColorRed(r.Value);
+                setQuad1BacklightColorGreen(g.Value);
+                setQuad1BacklightColorBlue(b.Value);
             }
-            else
-            {
-                if (r.HasValue) setBacklightColorRed((short)Math.Min(r.Value + w.Value, 255));
-                if (g.HasValue) setBacklightColorGreen((short)Math.Min(g.Value + w.Value, 255));
-                if (b.HasValue) setBacklightColorBlue((short)Math.Min(b.Value + w.Value, 255));
-            }
-            setBacklightColorWhite(0);
         }
 
-        public void SetPointerColor(short? r, short? g, short? b, short? w)
+        public void SetQuad2BackLightColor(short? r, short? g, short? b)
         {
-            if (!w.HasValue && r.HasValue && g.HasValue && b.HasValue)
+            if (r.HasValue && g.HasValue && b.HasValue)
+            {
+                setQuad2BacklightColorRed(r.Value);
+                setQuad2BacklightColorGreen(g.Value);
+                setQuad2BacklightColorBlue(b.Value);
+            }
+        }
+
+        public void SetQuad3BackLightColor(short? r, short? g, short? b)
+        {
+            if (r.HasValue && g.HasValue && b.HasValue)
+            {
+                setQuad3BacklightColorRed(r.Value);
+                setQuad3BacklightColorGreen(g.Value);
+                setQuad3BacklightColorBlue(b.Value);
+            }
+        }
+
+        public void SetPointerColor(short? r, short? g, short? b)
+        {
+            if (r.HasValue && g.HasValue && b.HasValue)
             {
 
                 setPointerColorRed(r.Value);
                 setPointerColorGreen(g.Value);
                 setPointerColorBlue(b.Value);
             }
-            else
-            {
-                if (r.HasValue) setPointerColorRed((short)Math.Min(r.Value + w.Value, 255));
-                if (g.HasValue) setPointerColorGreen((short)Math.Min(g.Value + w.Value, 255));
-                if (b.HasValue) setPointerColorBlue((short)Math.Min(b.Value + w.Value, 255));
-            }
-            if (w.HasValue) setPointerColorWhite(0);
         }
 
         /* Attributes Fragment Methods*/
@@ -359,93 +730,146 @@ namespace XamarinAttributeProgrammer.Models
             return gauge_type;
         }
 
-        public void setGaugeHome(int val)
+        public void setQuad0GaugeHome(int val)
         {
-            gauge_home = val;
+            quad0_gauge_home = val;
         }
-        public int getGaugeHome()
+        public int getQuad0GaugeHome()
         {
-            return gauge_home;
-        }
-
-        public void setGaugeFull(int val)
-        {
-            gauge_full = val;
-        }
-        public int getGaugeFull()
-        {
-            return gauge_full;
+            return quad0_gauge_home;
         }
 
-        public void setGaugeSweep(short val)
+        public void setQuad1GaugeHome(int val)
         {
-            gauge_sweep = val;
+            quad1_gauge_home = val;
         }
-        short getGaugeSweep()
+        public int getQuad1GaugeHome()
         {
-            return gauge_sweep;
-        }
-
-        public void setGaugeMinReading(int val)
-        {
-            gauge_min_valid_reading = (short)val;
-        }
-        int getGaugeMinReading()
-        {
-            return gauge_min_valid_reading;
+            return quad1_gauge_home;
         }
 
-        public void setGaugeMaxReading(int val)
+        public void setQuad2GaugeHome(int val)
         {
-            gauge_max_valid_reading = (short)val;
+            quad2_gauge_home = val;
         }
-        int getGaugeMaxReading()
+        public int getQuad2GaugeHome()
         {
-            return gauge_max_valid_reading;
-        }
-
-        public void setGaugeSensorCurve(short val)
-        {
-            gauge_sensor_curve = val;
-        }
-        short getGaugeSensorCurve()
-        {
-            return gauge_sensor_curve;
+            return quad2_gauge_home;
         }
 
-        public void setGaugePointerWeight(short val)
+        public void setQuad3GaugeHome(int val)
         {
-            gauge_pointer_weight = val;
+            quad3_gauge_home = val;
         }
-        public short getGaugePointerWeight()
+        public int getQuad3GaugeHome()
         {
-            return gauge_pointer_weight;
-        }
-
-        public void setGaugeHysteresis(short val)
-        {
-            gauge_hysteresis = val;
-        }
-        public short getGaugeHysteresis()
-        {
-            return gauge_hysteresis;
+            return quad3_gauge_home;
         }
 
-        public void setGaugeSensorScanRate(short val)
+        public void setQuad0GaugeFull(int val)
         {
-            gauge_sensor_scan_rate = val;
+            quad0_gauge_full = val;
         }
-        public short getGaugeSensorScanRate()
+        public int getQuad0GaugeFull()
         {
-            return gauge_sensor_scan_rate;
+            return quad0_gauge_full;
         }
-        public void setGaugeBacklightScanRate(short val)
+
+        public void setQuad1GaugeFull(int val)
         {
-            gauge_backlight_scan_rate = val;
+            quad1_gauge_full = val;
         }
-        public short getGaugeBacklightScanRate()
+        public int getQuad1GaugeFull()
         {
-            return gauge_backlight_scan_rate;
+            return quad1_gauge_full;
+        }
+
+        public void setQuad2GaugeFull(int val)
+        {
+            quad2_gauge_full = val;
+        }
+        public int getQuad2GaugeFull()
+        {
+            return quad2_gauge_full;
+        }
+
+        public void setQuad3GaugeFull(int val)
+        {
+            quad3_gauge_full = val;
+        }
+        public int getQuad3GaugeFull()
+        {
+            return quad3_gauge_full;
+        }
+
+        public void setQuad0GaugePointerWeight(short val)
+        {
+            quad0_gauge_pointer_weight = val;
+        }
+        public short getQuad0GaugePointerWeight()
+        {
+            return quad0_gauge_pointer_weight;
+        }
+
+        public void setQuad1GaugePointerWeight(short val)
+        {
+            quad1_gauge_pointer_weight = val;
+        }
+        public short getQuad1GaugePointerWeight()
+        {
+            return quad1_gauge_pointer_weight;
+        }
+
+        public void setQuad2GaugePointerWeight(short val)
+        {
+            quad2_gauge_pointer_weight = val;
+        }
+        public short getQuad2GaugePointerWeight()
+        {
+            return quad2_gauge_pointer_weight;
+        }
+
+        public void setQuad3GaugePointerWeight(short val)
+        {
+            quad3_gauge_pointer_weight = val;
+        }
+        public short getQuad3GaugePointerWeight()
+        {
+            return quad3_gauge_pointer_weight;
+        }
+
+        public void setQuad0GaugeHysteresis(short val)
+        {
+            quad0_hysteresis = val;
+        }
+        public short getQuad0GaugeHysteresis()
+        {
+            return quad0_hysteresis;
+        }
+
+        public void setQuad1GaugeHysteresis(short val)
+        {
+            quad1_hysteresis = val;
+        }
+        public short getQuad1GaugeHysteresis()
+        {
+            return quad1_hysteresis;
+        }
+        public void setQuad2GaugeHysteresis(short val)
+        {
+            quad2_hysteresis = val;
+        }
+        public short getQuad2GaugeHysteresis()
+        {
+            return quad2_hysteresis;
+        }
+        public void setQuad3GaugeHysteresis(short val)
+        {
+            quad3_hysteresis = val;
+        }
+        public short getQuad3GaugeHysteresis()
+        {
+            return quad3_hysteresis;
         }
 
         public void setGaugeCoefficient0(float val)
@@ -466,14 +890,6 @@ namespace XamarinAttributeProgrammer.Models
             return gauge_coefficient1;
         }
 
-        public void setGaugeMode(byte val)
-        {
-            gauge_mode = val;
-        }
-        public byte getGaugeMode()
-        {
-            return gauge_mode;
-        }
 
         public void setGaugePointerType(byte val)
         {
@@ -482,33 +898,6 @@ namespace XamarinAttributeProgrammer.Models
         public byte getGaugePointerType()
         {
             return gauge_pointer_type;
-        }
-
-        public void setGaugeBacklightFlashIntensity(byte val)
-        {
-            gauge_backlight_Flash_intensity = val;
-        }
-        public byte getGaugeBacklightFlashIntensity()
-        {
-            return gauge_backlight_Flash_intensity;
-        }
-
-        public void setGaugeBacklightLevel(byte val)
-        {
-            gauge_backlight_Flash_level = val;
-        }
-        public byte getGaugeBacklightLevel()
-        {
-            return gauge_backlight_Flash_level;
-        }
-
-        public void setGaugeBacklightZone(byte val)
-        {
-            gauge_backlight_Flash_zone = val;
-        }
-        public byte getGaugeBacklightZone()
-        {
-            return gauge_backlight_Flash_zone;
         }
 
         public void setGaugeBacklightTopVoltage(float val)
@@ -529,94 +918,102 @@ namespace XamarinAttributeProgrammer.Models
             return gauge_backlight_bot_voltage;
         }
 
-        public void setGaugeWarningBotLevel(byte val)
+
+        public void setQuad0GaugeWarningLevel(byte val)
         {
-            gauge_warning_bot_level = val;
+            quad0_warning_threshold = val;
         }
-        public byte getGaugeWarningBotLevel()
+        public byte getQuad0GaugeWarningLevel()
         {
-            return gauge_warning_bot_level;
+            return quad0_warning_threshold;
         }
 
-        public void setGaugeWarningBotZone(byte val)
+        public void setQuad0GaugeWarningZone(byte val)
         {
-            gauge_warning_bot_zone = val;
+            quad0_warning_zone = val;
         }
-        public byte getGaugeWarningBotZone()
+        public byte getQuad0GaugeWarningZone()
         {
-            return gauge_warning_bot_zone;
-        }
-
-        public void setGaugeWarningTopLevel(byte val)
-        {
-            gauge_warning_top_level = val;
-        }
-        public byte getGaugeWarningTopLevel()
-        {
-            return gauge_warning_top_level;
+            return quad0_warning_zone;
         }
 
-        public void setGaugeWarningTopZone(byte val)
+        public void setQuad1GaugeWarningLevel(byte val)
         {
-            gauge_warning_top_zone = val;
+            quad1_warning_threshold = val;
         }
-        public byte getGaugeWarningTopZone()
+        public byte getQuad1GaugeWarningLevel()
         {
-            return gauge_warning_top_zone;
-        }
-
-        public void setGaugeOutputBotLevel(byte val)
-        {
-            gauge_output_bot_level = val;
-        }
-        public byte getGaugeOutputBotLevel()
-        {
-            return gauge_output_bot_level;
+            return quad1_warning_threshold;
         }
 
-        public void setGaugeOutputBotZone(byte val)
+        public void setQuad1GaugeWarningZone(byte val)
         {
-            gauge_output_bot_zone = val;
+            quad1_warning_zone = val;
         }
-        public byte getGaugeOutputBotZone()
+        public byte getQuad1GaugeWarningZone()
         {
-            return gauge_output_bot_zone;
-        }
-
-        public void setGaugeOutputTopLevel(byte val)
-        {
-            gauge_output_top_level = val;
-        }
-        public byte getGaugeOutputTopLevel()
-        {
-            return gauge_output_top_level;
+            return quad1_warning_zone;
         }
 
-        public void setGaugeOutputTopZone(byte val)
+        public void setQuad2GaugeWarningLevel(byte val)
         {
-            gauge_output_top_zone = val;
+            quad2_warning_threshold = val;
         }
-        public byte getGaugeOutputTopZone()
+        public byte getQuad2GaugeWarningLevel()
         {
-            return gauge_output_top_zone;
-        }
-
-        public void setGaugeOutputStartupDelay(byte val)
-        {
-            gauge_output_startup_delay = val;
-        }
-        public byte getGaugeOutputStartupDelay()
-        {
-            return gauge_output_startup_delay;
+            return quad2_warning_threshold;
         }
 
-        public void setGaugeOutputActivationDelay(byte val)
+        public void setQuad2GaugeWarningZone(byte val)
         {
-            gauge_output_activation_delay = val;
+            quad2_warning_zone = val;
         }
-        public byte getGaugeOutputActivationDelay()
+        public byte getQuad2GaugeWarningZone()
         {
-            return gauge_output_activation_delay;
+            return quad2_warning_zone;
+        }
+
+        public void setQuad3GaugeWarningLevel(byte val)
+        {
+            quad3_warning_threshold = val;
+        }
+        public byte getQuad3GaugeWarningLevel()
+        {
+            return quad3_warning_threshold;
+        }
+
+        public void setQuad3GaugeWarningZone(byte val)
+        {
+            quad3_warning_zone = val;
+        }
+        public byte getQuad3GaugeWarningZone()
+        {
+            return quad3_warning_zone;
+        }
+        public void setGaugeOutputLevel(byte val)
+        {
+            gauge_output_level = val;
+        }
+        public byte getGaugeOutputLevel()
+        {
+            return gauge_output_level;
+        }
+
+        public void setGaugeOutputZone(byte val)
+        {
+            gauge_output_zone = val;
+        }
+        public byte getGaugeOutputZone()
+        {
+            return gauge_output_zone;
+        }
+        public void setGaugeOutputQuad(byte val)
+        {
+            output_quad = val;
+        }
+        public byte getGaugeOutputQuad()
+        {
+            return output_quad;
         }
         public void setTotalAccumulationEnabled(byte val)
         {
@@ -642,29 +1039,13 @@ namespace XamarinAttributeProgrammer.Models
         {
             return speedo_sensor;
         }
-        public void setTripEnabled(byte val)
+        public void setTachSensor(byte val)
         {
-            speedo_tach_trip_enable = val;
+            tach_sensor = val;
         }
-        public byte getTripEnabled()
+        public byte getTachSensor()
         {
-            return speedo_tach_trip_enable;
-        }
-        public void setPPRprecision(byte val)
-        {
-            tach_ppr_precision = val;
-        }
-        public byte getPPRprecision()
-        {
-            return tach_ppr_precision;
-        }
-        public void setSpeedoTachOutput(byte val)
-        {
-            speedo_tach_output = val;
-        }
-        public byte getSpeedoTachOutput()
-        {
-            return speedo_tach_output;
+            return tach_sensor;
         }
         public void setSpeedoPPM(short val)
         {
@@ -694,253 +1075,170 @@ namespace XamarinAttributeProgrammer.Models
         {
             setGaugeBacklightTopVoltage(profile.getGaugeBacklightTopVoltage());
             setGaugeBacklightBotVoltage(profile.getGaugeBacklightBotVoltage());
-            setGaugeWarningTopLevel(profile.getGaugeWarningTopLevel());
-            setGaugeWarningTopZone(profile.getGaugeWarningTopZone());
-            setGaugeWarningBotLevel(profile.getGaugeWarningBotLevel());
-            setGaugeWarningBotZone(profile.getGaugeWarningBotZone());
-            setGaugeBacklightLevel(profile.getGaugeBacklightLevel());
 
-            setGaugeBacklightFlashIntensity(profile.getGaugeBacklightFlashIntensity());
-            setGaugeOutputTopLevel(profile.getGaugeOutputTopLevel());
-            setGaugeOutputTopZone(profile.getGaugeOutputTopZone());
-            setGaugeOutputBotLevel(profile.getGaugeOutputBotLevel());
-            setGaugeOutputBotZone(profile.getGaugeOutputBotZone());
-            setGaugeOutputActivationDelay(profile.getGaugeOutputActivationDelay());
-            setGaugeOutputStartupDelay(profile.getGaugeOutputStartupDelay());
+            setQuad0GaugeWarningLevel(profile.getQuad0GaugeWarningLevel());
+            setQuad0GaugeWarningZone(profile.getQuad0GaugeWarningZone());
+            setQuad0GaugePointerWeight(profile.getQuad0GaugePointerWeight());
+            setQuad0GaugeHysteresis(profile.getQuad0GaugeHysteresis());
 
-            setGaugePointerWeight(profile.getGaugePointerWeight());
-            setGaugeHysteresis(profile.getGaugeHysteresis());
+            setQuad1GaugeWarningLevel(profile.getQuad1GaugeWarningLevel());
+            setQuad1GaugeWarningZone(profile.getQuad1GaugeWarningZone());
+            setQuad1GaugePointerWeight(profile.getQuad1GaugePointerWeight());
+            setQuad1GaugeHysteresis(profile.getQuad1GaugeHysteresis());
+
+            setQuad2GaugeWarningLevel(profile.getQuad2GaugeWarningLevel());
+            setQuad2GaugeWarningZone(profile.getQuad2GaugeWarningZone());
+            setQuad2GaugePointerWeight(profile.getQuad2GaugePointerWeight());
+            setQuad2GaugeHysteresis(profile.getQuad2GaugeHysteresis());
+
+            setQuad3GaugeWarningLevel(profile.getQuad3GaugeWarningLevel());
+            setQuad3GaugeWarningZone(profile.getQuad3GaugeWarningZone());
+            setQuad3GaugePointerWeight(profile.getQuad3GaugePointerWeight());
+            setQuad3GaugeHysteresis(profile.getQuad3GaugeHysteresis());
+
+            setGaugeOutputLevel(profile.getGaugeOutputLevel());
+            setGaugeOutputZone(profile.getGaugeOutputZone());
+
             setGaugeCoefficient0(profile.getGaugeCoefficient0());
             setGaugeCoefficient1(profile.getGaugeCoefficient1());
-            setGaugeSensorScanRate(profile.getGaugeSensorScanRate());
-            setGaugeBacklightScanRate(profile.getGaugeBacklightScanRate());
             setTotalAccumulationEnabled(profile.getTotalAccumulationEnabled());
             setUnits(profile.getUnits());
             setSpeedoSensor(profile.getSpeedoSensor());
-            setTripEnabled(profile.getTripEnabled());
-            setPPRprecision(profile.getPPRprecision());
-            setSpeedoTachOutput(profile.getSpeedoTachOutput());
+            setTachSensor(profile.getTachSensor());
             setSpeedoPPM(profile.getSpeedoPPM());
             setTachPPR(profile.getTachPPR());
             setTotalAccum(profile.getTotalAccum());
 
         }
-        /*
-                Navgation panel load/save/send methods
-             */
-        public void loadPacket(string packet, string type)
-        {
-            int mixer;
-            switch (type)
-            {
-                case "0x1":
-                    //NOTE: These have issues when converting data that is unsigned over to signed, to work around this
-                    //      the values will be fully converted into long before being reduced to proper size.
-
-                    //Update from Xamarin: very losely saying radix 16 just mean we're expecting a hexadecimal.
-                    //We'll be keeping long.parse because we don't know if the error occurs with c#
-                    Console.WriteLine($"Packet Length: {packet.Length}\t PacketMsg: {packet}");
-                    Console.WriteLine(SafeSubstring(packet,0, 4));
-                    Console.WriteLine(SafeSubstring(packet,4, 8));
-                    Console.WriteLine(SafeSubstring(packet,8, 12));
-                    Console.WriteLine(SafeSubstring(packet,12, 16));
-                    gauge_type = (int)ExtractFromPacketLong(packet,0, 4);
-                    gauge_home = (int)ExtractFromPacketLong(packet,4, 8);
-                    gauge_full = (int)ExtractFromPacketLong(packet,8, 12);
-                    gauge_min_valid_reading = (short)ExtractFromPacketLong(packet,12, 16);
-                    hasAttributes = true;
-                    break;
-                case "0x2":
-                    gauge_max_valid_reading = (short)ExtractFromPacketLong(packet,0, 4);
-                    gauge_sensor_curve = (byte)ExtractFromPacketLong(packet,4, 6);
-                    gauge_pointer_weight = (short)ExtractFromPacketLong(packet,6, 10);
-                    gauge_hysteresis = (short)ExtractFromPacketLong(packet,10, 12);
-                    gauge_sensor_scan_rate = (short)ExtractFromPacketLong(packet,12, 14);
-                    gauge_sweep = (short)ExtractFromPacketLong(packet,14, 16);
-                    hasAttributes = true;
-                    break;
-                case "0x3":
-                    mixer = (int)ExtractFromPacketLong(packet,0, 2);
-                    gauge_mode = (byte)((mixer & 0xF0) >> 4);
-                    gauge_pointer_type = (byte)((mixer & 0xc) >> 2);
-                    gauge_backlight_Flash_intensity = (byte)(mixer & 0x3);
-                    mixer = (int)ExtractFromPacketLong(packet,2, 4);
-                    gauge_backlight_Flash_level = (byte)((mixer & 0xFE) >> 1);
-                    gauge_backlight_Flash_zone = (byte)(mixer & 1);
-                    gauge_backlight_top_voltage = (int)ExtractFromPacketLong(packet,4, 8) / 10.0f; // our data is a short, so we need to divide by 10 to get decimals
-                    gauge_backlight_bot_voltage = (int)ExtractFromPacketLong(packet,8, 12) / 10.0f;
-                    mixer = (int)ExtractFromPacketLong(packet,12, 14);
-                    gauge_warning_bot_level = (byte)((mixer & 0xFE) >> 1);
-                    gauge_warning_bot_zone = (byte)(mixer & 0x1);
-                    mixer = (int)ExtractFromPacketLong(packet,14, 16);
-                    gauge_warning_top_level = (byte)((mixer & 0xFE) >> 1);
-                    gauge_warning_top_zone = (byte)(mixer & 0x1);
-                    hasAttributes = true;
-                    break;
-                case "0x4":
-                    RGBW_backlight_red = (short)ExtractFromPacketLong(packet,0, 2);
-                    RGBW_backlight_green = (short)ExtractFromPacketLong(packet,2, 4);
-                    RGBW_backlight_blue = (short)ExtractFromPacketLong(packet,4, 6);
-                    RGBW_backlight_white = (short)ExtractFromPacketLong(packet,6, 8);
-                    RGBW_pointer_red = (short)ExtractFromPacketLong(packet,8, 10);
-                    RGBW_pointer_green = (short)ExtractFromPacketLong(packet,10, 12);
-                    RGBW_pointer_blue = (short)ExtractFromPacketLong(packet,12, 14);
-                    RGBW_pointer_white = (short)ExtractFromPacketLong(packet,14, 16);
-                    hasAttributes = true;
-                    break;
-                case "0x5":
-                    // Converting the values from int to float... Not sure why but the original Android app does it.
-                    mixer = (int)ExtractFromPacketLong(packet,0, 8);
-                    byte[] bytesForConversion = BitConverter.GetBytes(mixer);
-
-                    gauge_coefficient0 = BitConverter.ToSingle(bytesForConversion, 0);
-
-                    mixer = (int)ExtractFromPacketLong(packet,8, 16);
-                    bytesForConversion = BitConverter.GetBytes(mixer);
-
-                    gauge_coefficient1 = BitConverter.ToSingle(bytesForConversion, 0);
-                    hasAttributes = true;
-                    break;
-                case "0x6":
-                    mixer = (int)ExtractFromPacketLong(packet,0, 2);
-                    gauge_output_startup_delay = (byte)((mixer & 0xC0) >> 6);
-                    gauge_output_activation_delay = (byte)(mixer & 0x3F);
-                    mixer = (int)ExtractFromPacketLong(packet,2, 4);
-                    gauge_output_bot_level = (byte)((mixer & 0xFE) >> 1);
-                    gauge_output_bot_zone = (byte)(mixer & 0x1);
-                    mixer = (int)ExtractFromPacketLong(packet,4, 6);
-                    gauge_output_top_level = (byte)((mixer & 0xFE) >> 1);
-                    gauge_output_top_zone = (byte)(mixer & 0x1);
-                    gauge_backlight_scan_rate = (short)ExtractFromPacketLong(packet,6, 8);
-                    hasAttributes = true;
-                    break;
-                case "0x7":
-                    mixer = (int)ExtractFromPacketLong(packet, 0, 8);
-                    bytesForConversion = BitConverter.GetBytes(mixer);
-                    lcd_total_accumulation = BitConverter.ToSingle(bytesForConversion, 0);
-
-                    mixer = (int)ExtractFromPacketLong(packet, 8, 10);
-                    enable_accumulation = (byte)((mixer & 0x80) >> 7);
-                    speedo_tach_units = (byte)((mixer & 0x20) >> 5);
-                    speedo_sensor = (byte)((mixer & 0x10) >> 4);
-                    speedo_tach_trip_enable = (byte)((mixer & 0x08) >> 3);
-                    tach_ppr_precision = (byte)((mixer & 0x04) >> 2);
-                    speedo_tach_output = (byte)(mixer & 0x03);
-
-                    speedo_PPM = (short)ExtractFromPacketLong(packet, 10, 14);
-                    tach_PPR = (byte)ExtractFromPacketLong(packet, 14, 16);
-
-                    hasAttributes = true;
-                    break;
-                default:
-                    //Log.e(TAG, "BLE message not recognized!" + type); //TODO: write a logger message
-                    break;
-
-            }
-        }
-        public string attributeMessageColorPreviewPackage()
-        {
-            StringBuilder message = new StringBuilder();
-            //Attach 16 character payloads to each 3 character message header (total of 19 character messages will be sent over BLE per attribute message)
-            message.Append("0x0");
-            message.Append(RGBW_backlight_red.ToString("X2"));
-            message.Append(RGBW_backlight_green.ToString("X2"));
-            message.Append(RGBW_backlight_blue.ToString("X2"));
-            message.Append(RGBW_backlight_white.ToString("X2"));
-            message.Append(RGBW_pointer_red.ToString("X2"));
-            message.Append(RGBW_pointer_green.ToString("X2"));
-            message.Append(RGBW_pointer_blue.ToString("X2"));
-            message.Append(RGBW_pointer_white.ToString("X2"));
-            return message.ToString();
-        }
-        
 
         // A function to get the "SAVE ALL" commands
         public string attributeMessagePackage()
         {
             //BLE message format-
-            //message 1 will be "0x1" + "FFFFFFFF" + "FFFFFFFF"
-            //message 2 will be "0x2" + "FFFFFFFF" + "FFFFFFFF"
-            //message 3 will be "0x3" + "FFFFFFFF" + "FFFFFFFF"
-            //message 4 will be "0x4" + "FFFFFFFF" + "FFFFFFFF"
-            //message 5 will be "0x5" + "FFFFFFFF" + "FFFFFFFF"
-            //message 6 will be "0x6" + "FFFFFFFF" + "FFFFFFFF"
-            //message 6 will be "0x7" + "FFFFFFFF" + "FFFFFFFF"
+            //message 1 will be "0x1" + "FFFFFFFF" + "FFFFFFFF" FFA1
+            //message 2 will be "0x2" + "FFFFFFFF" + "FFFFFFFF" FFA1 
+            //message 3 will be "0x3" + "FFFFFFFF" + "FFFFFFFF" FFA1
+            //message 4 will be "0x4" + "FFFFFFFF" + "FFFFFFFF" FFA1
+            //message 5 will be "0x5" + "FFFFFFFF" + "FFFFFFFF" FFA2
+            //message 6 will be "0x6" + "FFFFFFFF" + "FFFFFFFF" FFA3
+            //message 7 will be "0x7" + "FFFFFFFF" + "FFFFFFFF" FFA4
             //message n will be "0xn" + "FFFFFFFF" + "FFFFFFFF"
 
             int mixer = 0;
             StringBuilder message = new StringBuilder();
             //Attach 16 character payloads to each 3 character message header (total of 19 character messages will be sent over BLE per attribute message)
+            // FFA1 Quad 0
             message.Append(" 0x1");
-            message.Append(gauge_type.ToString("X4"));
-            message.Append(gauge_home.ToString("X4"));
-            message.Append(gauge_full.ToString("X4"));
-            message.Append(gauge_min_valid_reading.ToString("X4"));
+            mixer = ((0xC0 & quad0Location) | (quad0SensorType & 0x20) | (quad0_gauge & 0x1F));
+            message.Append(mixer.ToString("X2"));
+            mixer = ((0xC0 & quad0_hysteresis) | (0x30 & quad0_gauge_pointer_weight) | (0x0F & quad0_curve));
+            message.Append(mixer.ToString("X2"));
+            message.Append(quad0_gauge_home.ToString("X2"));
+            message.Append(quad0_gauge_full.ToString("X2"));
+            mixer = ((0x3F & quad0_gauge_full >> 8) | (RGBW_backlight_red_quad0 << 2 & 0xC0));
+            message.Append(mixer.ToString("X2"));
+            mixer = ((0x3F & RGBW_backlight_green_quad0 >> 8) | (RGBW_backlight_red_quad0 << 4 & 0xC0));
+            message.Append(mixer.ToString("X2"));
+            mixer = ((0x3F & RGBW_backlight_blue_quad0 >> 8) | (RGBW_backlight_red_quad0 << 6 & 0xC0));
+            message.Append(mixer.ToString("X2"));
 
+            // FFA1 Quad 1
             message.Append(" 0x2"); //insert a space character for seperating each message
-            message.Append(gauge_max_valid_reading.ToString("X4"));
-            message.Append(gauge_sensor_curve.ToString("X2"));
-            message.Append(gauge_pointer_weight.ToString("X4"));
-            message.Append(gauge_hysteresis.ToString("X2"));
-            message.Append(gauge_sensor_scan_rate.ToString("X2")); //TODO: Test if this does 255 correctly
-            message.Append(gauge_sweep.ToString("X2"));
-
-            message.Append(" 0x3");
-            mixer = (0xF0 & (gauge_mode << 4)) | (0xc & (gauge_pointer_type << 2)) | (0x3 & (gauge_backlight_Flash_intensity));
+            mixer = ((0xC0 & quad1Location) | (quad1SensorType & 0x20) | (quad1_gauge & 0x1F));
             message.Append(mixer.ToString("X2"));
-            mixer = (0xFE & (gauge_backlight_Flash_level << 1)) | (0x1 & (gauge_backlight_Flash_zone));
+            mixer = ((0xC0 & quad1_hysteresis) | (0x30 & quad1_gauge_pointer_weight) | (0x0F & quad1_curve));
             message.Append(mixer.ToString("X2"));
-            message.Append(((int)(gauge_backlight_top_voltage * 10)).ToString("X4"));
-            message.Append(((int)(gauge_backlight_bot_voltage * 10)).ToString("X4"));
-            //rearranged this from attributed message order to keep colors together
-            mixer = (0xFE & (gauge_warning_bot_level << 1)) | (0x1 & (gauge_warning_bot_zone));
+            message.Append(quad1_gauge_home.ToString("X2"));
+            message.Append(quad1_gauge_full.ToString("X2"));
+            mixer = ((0x3F & quad1_gauge_full >> 8) | (RGBW_backlight_red_quad1 << 2 & 0xC0));
             message.Append(mixer.ToString("X2"));
-            mixer = (0xFE & (gauge_warning_top_level << 1)) | (0x1 & (gauge_warning_top_zone));
+            mixer = ((0x3F & RGBW_backlight_green_quad1 >> 8) | (RGBW_backlight_red_quad1 << 4 & 0xC0));
+            message.Append(mixer.ToString("X2"));
+            mixer = ((0x3F & RGBW_backlight_blue_quad1 >> 8) | (RGBW_backlight_red_quad1 << 6 & 0xC0));
             message.Append(mixer.ToString("X2"));
 
-            message.Append(" 0x4");
-            // 53 characters by this point
-            message.Append(RGBW_backlight_red.ToString("X2"));
-            message.Append(RGBW_backlight_green.ToString("X2"));
-            message.Append(RGBW_backlight_blue.ToString("X2"));
-            message.Append(RGBW_backlight_white.ToString("X2"));
-            message.Append(RGBW_pointer_red.ToString("X2"));
-            message.Append(RGBW_pointer_green.ToString("X2"));
-            message.Append(RGBW_pointer_blue.ToString("X2"));
-            message.Append(RGBW_pointer_white.ToString("X2"));
+            // Only append these messages for 4 in 1 gauges
+            if (gauge_type == 16 || gauge_type == 18)
+            {
+                // FFA1 Quad 2
+                message.Append(" 0x3");
+                mixer = ((0xC0 & quad2Location) | (quad2SensorType & 0x20) | (quad2_gauge & 0x1F));
+                message.Append(mixer.ToString("X2"));
+                mixer = ((0xC0 & quad2_hysteresis) | (0x30 & quad2_gauge_pointer_weight) | (0x0F & quad2_curve));
+                message.Append(mixer.ToString("X2"));
+                message.Append(quad2_gauge_home.ToString("X2"));
+                message.Append(quad2_gauge_full.ToString("X2"));
+                mixer = ((0x3F & quad2_gauge_full >> 8) | (RGBW_backlight_red_quad2 << 2 & 0xC0));
+                message.Append(mixer.ToString("X2"));
+                mixer = ((0x3F & RGBW_backlight_green_quad2 >> 8) | (RGBW_backlight_red_quad2 << 4 & 0xC0));
+                message.Append(mixer.ToString("X2"));
+                mixer = ((0x3F & RGBW_backlight_blue_quad2 >> 8) | (RGBW_backlight_red_quad2 << 6 & 0xC0));
+                message.Append(mixer.ToString("X2"));
 
+                //FFA1 Quad 3
+                message.Append(" 0x4");
+                mixer = ((0xC0 & quad3Location) | (quad3SensorType & 0x20) | (quad3_gauge & 0x1F));
+                message.Append(mixer.ToString("X2"));
+                mixer = ((0xC0 & quad3_hysteresis) | (0x30 & quad3_gauge_pointer_weight) | (0x0F & quad3_curve));
+                message.Append(mixer.ToString("X2"));
+                message.Append(quad3_gauge_home.ToString("X2"));
+                message.Append(quad3_gauge_full.ToString("X2"));
+                mixer = ((0x3F & quad3_gauge_full >> 8) | (RGBW_backlight_red_quad3 << 2 & 0xC0));
+                message.Append(mixer.ToString("X2"));
+                mixer = ((0x3F & RGBW_backlight_green_quad3 >> 8) | (RGBW_backlight_red_quad3 << 4 & 0xC0));
+                message.Append(mixer.ToString("X2"));
+                mixer = ((0x3F & RGBW_backlight_blue_quad3 >> 8) | (RGBW_backlight_red_quad3 << 6 & 0xC0));
+                message.Append(mixer.ToString("X2"));
 
+            }
+
+            //FFA2
             message.Append(" 0x5");
+            // Need to convert it back to the accepted byte value
+            mixer = (0x80 & backlight_input << 7 | (0x40 & warning_light_backlight_flash) | (0x0F & daytime_brightness));
+            message.Append(mixer.ToString("X2"));
+            message.Append((0xFF & (int)(gauge_backlight_bot_voltage * 10)).ToString("X2"));
+            mixer = ((0xF0 & (int)(gauge_backlight_bot_voltage * 10) >> 4) | (0x0F & (int)(gauge_backlight_top_voltage * 10) >> 8));
+            message.Append(mixer.ToString("X2"));
+            message.Append((0xFF & (int)(gauge_backlight_top_voltage * 10)).ToString("X2"));
+            message.Append(max_brightness.ToString("X2"));
+            message.Append((0x3F & RGBW_pointer_red).ToString("X2"));
+            message.Append((0x3F & RGBW_pointer_green).ToString("X2"));
+            message.Append((0x3F & RGBW_pointer_blue).ToString("X2"));
+
+            //FFA3
+            message.Append(" 0x6");
+            mixer = (0x80 & (enable_accumulation << 7)) | (0x40 & (nvm_coeff_pair << 6)) | (0x20 & (speedo_tach_units << 5)) | (0x10 & (speedo_sensor << 4))
+                    | (0x08 & (tach_sensor << 3)) | (0x06 & (output_quad << 1)) | (0x01 & canbus_speed);
+            message.Append(mixer.ToString("X2"));
+            if (enable_accumulation == 1)
+            {
+                int tempInt = BitConverter.ToInt32(BitConverter.GetBytes(lcd_total_accumulation), 0);
+                message.Append((tempInt >> 16 & 0xFF).ToString("X2"));
+                message.Append((tempInt >> 8 & 0xFF).ToString("X2"));
+                message.Append((tempInt & 0xFF).ToString("X2"));
+
+            }
+            else
+            {
+                int tempInt = 0;
+                message.Append((tempInt >> 16 & 0xFF).ToString("X2"));
+                message.Append((tempInt >> 8 & 0xFF).ToString("X2"));
+                message.Append((tempInt & 0xFF).ToString("X2"));
+            }
+
+            message.Append(speedo_PPM.ToString("X4"));
+            message.Append(tach_PPR.ToString("X2"));
+            mixer = ((0x80 & gauge_output_zone) | (0x7F & gauge_output_level));
+            message.Append(mixer.ToString("X2"));
+
+            // FFA4
+            message.Append(" 0x7");
             // Need to convert it back to the accepted byte value
             int tmpInt = BitConverter.ToInt32(BitConverter.GetBytes(gauge_coefficient0), 0);
             message.Append(tmpInt.ToString("X8"));
-
             tmpInt = BitConverter.ToInt32(BitConverter.GetBytes(gauge_coefficient1), 0);
             message.Append(tmpInt.ToString("X8"));
-
-            message.Append(" 0x6");
-            mixer = (0xC0 & (gauge_output_startup_delay << 6)) | (0x3F & (gauge_output_activation_delay));
-            message.Append(mixer.ToString("X2"));
-            mixer = (0xFE & (gauge_output_bot_level << 1)) | (0x1 & (gauge_output_bot_zone));
-            message.Append(mixer.ToString("X2"));
-            mixer = (0xFE & (gauge_output_top_level << 1)) | (0x1 & (gauge_output_top_zone));
-            message.Append(mixer.ToString("X2"));
-            message.Append(gauge_backlight_scan_rate.ToString("X2"));
-            //room for 8 Bytes left, CRC will take up part of that
-            message.Append("0000");//-filler
-            message.Append("0000");//-CRC algorithm TBD
-
-            // Speedo/Tach Message
-            message.Append(" 0x7");
-            // Need to convert it back to the accepted byte value
-            tmpInt = BitConverter.ToInt32(BitConverter.GetBytes(lcd_total_accumulation), 0);
-            message.Append(tmpInt.ToString("X8"));
-            mixer = (0x80 & (enable_accumulation << 7)) | (0x20 & (speedo_tach_units << 5)) | (0x10 & (speedo_sensor << 4))
-                    | (0x08 & (speedo_tach_trip_enable << 3)) | (0x04 & (tach_ppr_precision << 2)) | (0x03 & speedo_tach_output);
-            message.Append(mixer.ToString("X2"));
-            message.Append(speedo_PPM.ToString("X4"));
-            message.Append(tach_PPR.ToString("X2"));
-
             return message.ToString();
         }
 
@@ -956,86 +1254,92 @@ namespace XamarinAttributeProgrammer.Models
             //message 7 will be "0x7" + "FFFFFFFF" + "FFFFFFFF"
             //message n will be "0xn" + "FFFFFFFF" + "FFFFFFFF"
 
-            int mixer = 0;
             StringBuilder message = new StringBuilder();
-            //Attach 16 character payloads to each 3 character message header (total of 19 character messages will be sent over BLE per attribute message)
-            message.Append("gauge_type: " + gauge_type.ToString() + Environment.NewLine);
-            message.Append("gauge_home: " + gauge_home.ToString() + Environment.NewLine);
-            message.Append("gauge_full: " + gauge_full.ToString() + Environment.NewLine);
-            message.Append("gauge_min_valid_reading: " + gauge_min_valid_reading.ToString() + Environment.NewLine);
 
-            message.Append("gauge_max_valid_reading: " + gauge_max_valid_reading.ToString() + Environment.NewLine);
-            message.Append("gauge_sensor_curve: " + gauge_sensor_curve.ToString() + Environment.NewLine);
-            message.Append("gauge_pointer_weight: " + gauge_pointer_weight.ToString() + Environment.NewLine);
-            message.Append("gauge_hysteresis: " + gauge_hysteresis.ToString() + Environment.NewLine);
-            message.Append("gauge_sensor_scan_rate: " + gauge_sensor_scan_rate.ToString() + Environment.NewLine); //TODO: Test if this does 255 correctly
-            message.Append("gauge_sweep: " + gauge_sweep.ToString() + Environment.NewLine);
+            // 0x1
+            message.Append("quad0_gauge_type: " + quad0_gauge.ToString() + Environment.NewLine);
+            message.Append("quad0_sensor_type: " + quad0SensorType.ToString() + Environment.NewLine);
+            message.Append("quad0_gauge_home: " + quad0_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad0_gauge_full: " + quad0_gauge_full.ToString() + Environment.NewLine);
+            message.Append("quad0_hysteresis: " + quad0_gauge.ToString() + Environment.NewLine);
+            message.Append("quad0_motor_weight: " + quad0SensorType.ToString() + Environment.NewLine);
+            message.Append("quad0_curve: " + quad0_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad0_warning_zone: " + quad0_warning_zone.ToString() + Environment.NewLine);
+            message.Append("quad0_warning_level: " + quad0_warning_threshold.ToString() + Environment.NewLine);
+            message.Append("quad0_RGBW_backlight_red: " + RGBW_backlight_red_quad0.ToString() + Environment.NewLine);
+            message.Append("quad0_RGBW_backlight_green: " + RGBW_backlight_green_quad0.ToString() + Environment.NewLine);
+            message.Append("quad0_RGBW_backlight_blue: " + RGBW_backlight_blue_quad0.ToString() + Environment.NewLine);
 
-            message.Append("gauge_mode: " + gauge_mode.ToString() + Environment.NewLine);
+            // 0x2
+            message.Append("quad1_gauge_type: " + quad1_gauge.ToString() + Environment.NewLine);
+            message.Append("quad1_sensor_type: " + quad1SensorType.ToString() + Environment.NewLine);
+            message.Append("quad1_gauge_home: " + quad1_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad1_gauge_full: " + quad1_gauge_full.ToString() + Environment.NewLine);
+            message.Append("quad1_hysteresis: " + quad1_gauge.ToString() + Environment.NewLine);
+            message.Append("quad1_motor_weight: " + quad1SensorType.ToString() + Environment.NewLine);
+            message.Append("quad1_curve: " + quad1_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad1_warning_zone: " + quad1_warning_zone.ToString() + Environment.NewLine);
+            message.Append("quad1_warning_level: " + quad1_warning_threshold.ToString() + Environment.NewLine);
+            message.Append("quad1_RGBW_backlight_red: " + RGBW_backlight_red_quad1.ToString() + Environment.NewLine);
+            message.Append("quad1_RGBW_backlight_green: " + RGBW_backlight_green_quad1.ToString() + Environment.NewLine);
+            message.Append("quad1_RGBW_backlight_blue: " + RGBW_backlight_blue_quad1.ToString() + Environment.NewLine);
+
+            // 0x3
+            message.Append("quad2_gauge_type: " + quad2_gauge.ToString() + Environment.NewLine);
+            message.Append("quad2_sensor_type: " + quad2SensorType.ToString() + Environment.NewLine);
+            message.Append("quad2_gauge_home: " + quad2_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad2_gauge_full: " + quad2_gauge_full.ToString() + Environment.NewLine);
+            message.Append("quad2_hysteresis: " + quad2_gauge.ToString() + Environment.NewLine);
+            message.Append("quad2_motor_weight: " + quad2SensorType.ToString() + Environment.NewLine);
+            message.Append("quad2_curve: " + quad2_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad2_warning_zone: " + quad2_warning_zone.ToString() + Environment.NewLine);
+            message.Append("quad2_warning_level: " + quad2_warning_threshold.ToString() + Environment.NewLine);
+            message.Append("quad2_RGBW_backlight_red: " + RGBW_backlight_red_quad2.ToString() + Environment.NewLine);
+            message.Append("quad2_RGBW_backlight_green: " + RGBW_backlight_green_quad2.ToString() + Environment.NewLine);
+            message.Append("quad2_RGBW_backlight_blue: " + RGBW_backlight_blue_quad2.ToString() + Environment.NewLine);
+
+            // 0x4
+            message.Append("quad3_gauge_type: " + quad3_gauge.ToString() + Environment.NewLine);
+            message.Append("quad3_sensor_type: " + quad3SensorType.ToString() + Environment.NewLine);
+            message.Append("quad3_gauge_home: " + quad3_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad3_gauge_full: " + quad3_gauge_full.ToString() + Environment.NewLine);
+            message.Append("quad3_hysteresis: " + quad3_gauge.ToString() + Environment.NewLine);
+            message.Append("quad3_motor_weight: " + quad3SensorType.ToString() + Environment.NewLine);
+            message.Append("quad3_curve: " + quad3_gauge_home.ToString() + Environment.NewLine);
+            message.Append("quad3_warning_zone: " + quad3_warning_zone.ToString() + Environment.NewLine);
+            message.Append("quad3_warning_level: " + quad3_warning_threshold.ToString() + Environment.NewLine);
+            message.Append("quad3_RGBW_backlight_red: " + RGBW_backlight_red_quad3.ToString() + Environment.NewLine);
+            message.Append("quad3_RGBW_backlight_green: " + RGBW_backlight_green_quad3.ToString() + Environment.NewLine);
+            message.Append("quad3_RGBW_backlight_blue: " + RGBW_backlight_blue_quad3.ToString() + Environment.NewLine);
+
+
+            // 0x5
+            message.Append("gauge_backlight_input: " + backlight_input.ToString() + Environment.NewLine);
+            message.Append("gauge_warning_flash: " + warning_light_backlight_flash.ToString() + Environment.NewLine);
             message.Append("gauge_pointer_type: " + gauge_pointer_type.ToString() + Environment.NewLine);
-            message.Append("gauge_backlight_Flash_intensity: " + gauge_backlight_Flash_intensity.ToString() + Environment.NewLine);
-            mixer = (0xFE & (gauge_backlight_Flash_level << 1)) | (0x1 & (gauge_backlight_Flash_zone));
-            message.Append("gauge_backlight_Flash_level: " + gauge_backlight_Flash_level.ToString() + Environment.NewLine);
-            message.Append("gauge_backlight_Flash_zone: " + gauge_backlight_Flash_zone.ToString() + Environment.NewLine);
             message.Append("gauge_backlight_top_voltage: " + ((int)(gauge_backlight_top_voltage * 10)).ToString() + Environment.NewLine);
             message.Append("gauge_backlight_bot_voltage: " + ((int)(gauge_backlight_bot_voltage * 10)).ToString() + Environment.NewLine);
-            //rearranged this from attributed message order to keep colors together
-            message.Append("gauge_warning_bot_level: " + gauge_warning_bot_level.ToString() + Environment.NewLine);
-            message.Append("gauge_warning_bot_zone: " + gauge_warning_bot_zone.ToString() + Environment.NewLine);
-            message.Append("gauge_warning_top_level: " + gauge_warning_top_level.ToString() + Environment.NewLine);
-            message.Append("gauge_warning_top_zone: " + gauge_warning_top_zone.ToString() + Environment.NewLine);
-
-            // 53 characters by this point
-            message.Append("RGBW_backlight_red: " + RGBW_backlight_red.ToString() + Environment.NewLine);
-            message.Append("RGBW_backlight_green: " + RGBW_backlight_green.ToString() + Environment.NewLine);
-            message.Append("RGBW_backlight_blue: " + RGBW_backlight_blue.ToString() + Environment.NewLine);
-            message.Append("RGBW_backlight_white: " + RGBW_backlight_white.ToString() + Environment.NewLine);
+            message.Append("lcd_brightness: " + daytime_brightness.ToString() + Environment.NewLine);
             message.Append("RGBW_pointer_red: " + RGBW_pointer_red.ToString() + Environment.NewLine);
             message.Append("RGBW_pointer_green: " + RGBW_pointer_green.ToString() + Environment.NewLine);
             message.Append("RGBW_pointer_blue: " + RGBW_pointer_blue.ToString() + Environment.NewLine);
             message.Append("RGBW_pointer_white: " + RGBW_pointer_white.ToString() + Environment.NewLine);
 
-
-            // Need to convert it back to the accepted byte value
-            message.Append("gauge_coefficient0: " + gauge_coefficient0 + Environment.NewLine);
-
-            message.Append("gauge_coefficient1: " + gauge_coefficient1 + Environment.NewLine);
-            //0x6
-            message.Append("gauge_output_startup_delay: " + gauge_output_startup_delay.ToString() + Environment.NewLine);
-            message.Append("gauge_output_activation_delay: " + gauge_output_activation_delay.ToString() + Environment.NewLine);
-            message.Append("gauge_output_bot_level: " + gauge_output_bot_level.ToString() + Environment.NewLine);
-            message.Append("gauge_output_bot_zone: " + gauge_output_bot_zone.ToString() + Environment.NewLine);
-            message.Append("gauge_output_top_level: " + gauge_output_top_level.ToString() + Environment.NewLine);
-            message.Append("gauge_output_top_zone: " + gauge_output_top_zone.ToString() + Environment.NewLine);
-            message.Append("gauge_backlight_scan_rate: " + gauge_backlight_scan_rate.ToString() + Environment.NewLine);
-            
-            //0x7
+            // 0x6
             message.Append("lcd_total_accumulationulation: " + lcd_total_accumulation.ToString() + Environment.NewLine);
             message.Append("enable_accumulation:" + enable_accumulation.ToString() + Environment.NewLine);
             message.Append("speedo_tach_units: " + speedo_tach_units.ToString() + Environment.NewLine);
             message.Append("speedo_sensor: " + speedo_sensor.ToString() + Environment.NewLine);
-            message.Append("speedo_tach_trip_enable: " + speedo_tach_trip_enable.ToString() + Environment.NewLine);
-            message.Append("tach_ppr_precision: " + tach_ppr_precision.ToString() + Environment.NewLine);
-            message.Append("speedo_tach_output: " + speedo_tach_output.ToString() + Environment.NewLine);
+            message.Append("tach_sensor: " + tach_sensor.ToString() + Environment.NewLine);
             message.Append("Speedo PPM: " + speedo_PPM.ToString() + Environment.NewLine);
             message.Append("Tach PPR: " + tach_PPR.ToString() + Environment.NewLine);
+            message.Append("gauge_output_level: " + gauge_output_level.ToString() + Environment.NewLine);
+            message.Append("gauge_output_zone: " + gauge_output_zone.ToString() + Environment.NewLine);
 
-            return message.ToString();
-        }
+            // 0x7
+            message.Append("gauge_coefficient0: " + gauge_coefficient0 + Environment.NewLine);
+            message.Append("gauge_coefficient1: " + gauge_coefficient1 + Environment.NewLine);
 
-        public string SaveColorToGauge()
-        {
-            StringBuilder message = new StringBuilder();
-            message.Append("0x4");
-            // 53 characters by this point
-            message.Append(string.Format("%02X", (byte)RGBW_backlight_red));
-            message.Append(string.Format("%02X", (byte)RGBW_backlight_green));
-            message.Append(string.Format("%02X", (byte)RGBW_backlight_blue));
-            message.Append(string.Format("%02X", (byte)RGBW_backlight_white));
-            message.Append(string.Format("%02X", (byte)RGBW_pointer_red));
-            message.Append(string.Format("%02X", (byte)RGBW_pointer_green));
-            message.Append(string.Format("%02X", (byte)RGBW_pointer_blue));
-            message.Append(string.Format("%02X", (byte)RGBW_pointer_white));
 
             return message.ToString();
         }

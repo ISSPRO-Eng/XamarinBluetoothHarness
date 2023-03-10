@@ -130,9 +130,9 @@ namespace XamarinAttributeProgrammer.Views
             DeviceNameEntry.Text = _connection.LastConnectedDevice.Name;
             _connection.DeviceName = DeviceNameEntry.Text;
                
-            return string.Format(gaugeDescription,  gauge.getDevice_SN() ?? Resourcer.getResStrVal("nullValue"), 
+            return string.Format(gaugeDescription,  Resourcer.getResStrVal("nullValue"), 
                                                     gauge.getDeviceVersion() ?? Resourcer.getResStrVal("nullValue"), 
-                                                    gauge.getDevice_PCB_Type()) ?? Resourcer.getResStrVal("nullValue");
+                                                    Resourcer.getResStrVal("nullValue"));
         }
 
         /// Function where the popup of the device list is called.
@@ -201,19 +201,6 @@ namespace XamarinAttributeProgrammer.Views
                             vm.isConnected = true;
                             _connection.IsConnected = true;
                             DiagnosticPage.AddToLog("I: Established communication with device!");
-                            // flash warning light five times in five seconds to show connected device
-                            byte[] cmd = null;
-                            cmd = GaugeCommands.WARN_TOGGLE;
-                            if (cmd != null)
-                            {
-                                for (int i = 0; i < 5; i++)
-                                {
-                                    await _connection.TryWriteAsync(cmd);
-                                    await Task.Delay(500);
-                                    await _connection.TryWriteAsync(cmd);
-                                    await Task.Delay(500);
-                                }
-                            }
                         }
                         else
                         {

@@ -122,7 +122,7 @@
     <comment>Entry Lbl for Attribute Page</comment>
   </data>
   <data name="advance" xml:space="preserve">
-    <value>Advance</value>
+    <value>Advanced Curve Options</value>
     <comment>for Attribute Page</comment>
   </data>
   <data name="alert" xml:space="preserve">
@@ -229,7 +229,7 @@ CONNECTED</value>
 </value>
   </data>
   <data name="driver" xml:space="preserve">
-    <value>Driver</value>
+    <value>Output Driver</value>
     <comment>for Attribute Page</comment>
   </data>
   <data name="enableAccumulation" xml:space="preserve">
@@ -239,7 +239,7 @@ CONNECTED</value>
     <value>Hall Sensor</value>
   </data>
   <data name="errorEmptyField" xml:space="preserve">
-    <value>Please do not leave any empty field.</value>
+    <value>Please do not leave any empty fields.</value>
   </data>
   <data name="errorTitle" xml:space="preserve">
     <value>Error</value>
@@ -328,12 +328,8 @@ CONNECTED</value>
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="outputBotThres" xml:space="preserve">
-    <value>Output Value Low</value>
-    <comment>Entry Lbl for Attribute Page</comment>
-  </data>
-  <data name="outputTopThres" xml:space="preserve">
-    <value>Output Value High</value>
+  <data name="outputThres" xml:space="preserve">
+    <value>Output Value </value>
     <comment>Entry Lbl for Attribute Page</comment>
   </data>
   <data name="parseError" xml:space="preserve">
@@ -441,12 +437,8 @@ CONNECTED</value>
     <value>Warning</value>
     <comment>Lbl for Attribute Page</comment>
   </data>
-  <data name="warnThresBot" xml:space="preserve">
-    <value>Warning Value Low</value>
-    <comment>Entry Lbl for Attribute Page</comment>
-  </data>
-  <data name="warnThresTop" xml:space="preserve">
-    <value>Warning Value High</value>
+  <data name="warnThres" xml:space="preserve">
+    <value>Warning Value Percentage</value>
     <comment>Entry Lbl for Attribute Page</comment>
   </data>
   <data name="yes" xml:space="preserve">

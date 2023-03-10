@@ -54,28 +54,12 @@ namespace XamarinAttributeProgrammer.Views
             await Task.Delay(20);
             DiagnosticPage.AddToLog("I: Entering Color Selection page.");
             GaugeAttributes att = App.AttributeManager;
-
-            int redBacklight = att.getBacklightColorRed();
-            int greenBacklight = att.getBacklightColorGreen();
-            int blueBacklight = att.getBacklightColorBlue();
-            int redPointer = att.getPointerColorRed();
-            int greenPointer = att.getPointerColorGreen();
-            int bluePointer = att.getPointerColorBlue();
             if (first == true)
             {
                 await DisplayAlert(Resourcer.getResStrVal("warning"),
                         ("Be sure to save new colors before leaving page."), Resourcer.Ok);
                 first = false;
-                // ios needs value to change to update image preview only on first app boot up...
-                if (DeviceInfo.Platform == DevicePlatform.iOS)
-                {
-                await csvm.SetPointerPreviewTo(redPointer + 1, greenPointer, bluePointer);
-                await csvm.SetBacklightPreviewTo(redBacklight + 1, greenBacklight, blueBacklight);
-                }
             }
-            // call the view model and update the colors of the preview
-            await csvm.SetBacklightPreviewTo(redBacklight, greenBacklight, blueBacklight);
-            await csvm.SetPointerPreviewTo(redPointer, greenPointer, bluePointer);
         }
 
         /// <summary>
@@ -168,33 +152,33 @@ namespace XamarinAttributeProgrammer.Views
                 switch (id)
                 {
                     case "1": // r11 B:W, P:W
-                        ga.SetBackLightColor(0, 0, 40, 64);
-                        ga.SetPointerColor(0, 0, 211, 255);
+                        ga.SetQuad0BackLightColor(0, 0, 40);
+                        ga.SetPointerColor(0, 0, 211);
                         break;
                     case "3": // dodge gen 1-2 B: W P: R
-                        ga.SetBackLightColor(0, 0, 40, 64);
-                        ga.SetPointerColor(231, 17, 0, 0);
+                        ga.SetQuad0BackLightColor(0, 0, 40);
+                        ga.SetPointerColor(231, 17, 0);
                         break;
                     case "2": // r13 B:Light Blue P: Blue
-                        ga.SetBackLightColor(0, 75, 106, 3);
-                        ga.SetPointerColor(0, 11, 73, 0);
+                        ga.SetQuad0BackLightColor(0, 75, 106);
+                        ga.SetPointerColor(0, 11, 73);
                         break;
                     case "4": // dodge gen 3 B: G, P:R
-                        ga.SetBackLightColor(0, 50, 0, 0);
-                        ga.SetPointerColor(231, 17, 0, 0);
+                        ga.SetQuad0BackLightColor(0, 50, 0);
+                        ga.SetPointerColor(231, 17, 0);
                         break;
                     case "5": // ford 94-97 B: G, P:W
-                        ga.SetBackLightColor(0, 50, 0, 0);
-                        ga.SetPointerColor(0, 0, 0, 255);
+                        ga.SetQuad0BackLightColor(0, 50, 0);
+                        ga.SetPointerColor(0, 0, 0);
                         break;
                     case "6":// gm 2007+ B: Cyan, P:R
-                        ga.SetBackLightColor(0, 67, 30, 0);
-                        ga.SetPointerColor(107, 17, 0, 0);
+                        ga.SetQuad0BackLightColor(0, 67, 30);
+                        ga.SetPointerColor(107, 17, 0);
                         break;
                     default:
                         break;
                 }
-
+                /*
                 await csvm.SetBacklightPreviewTo(ga.getBacklightColorRed(),
                                     ga.getBacklightColorGreen(),
                                     ga.getBacklightColorBlue());
@@ -203,7 +187,7 @@ namespace XamarinAttributeProgrammer.Views
                                     ga.getPointerColorGreen(),
                                     ga.getPointerColorBlue());
                 DiagnosticPage.AddToLog($"I: Preset style {id} selected.");
-
+                */
             }
             catch (Exception ex) when (!(ex is CharacteristicReadException))
             {

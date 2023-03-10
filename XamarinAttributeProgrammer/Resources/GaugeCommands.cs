@@ -83,11 +83,8 @@ namespace XamarinAttributeProgrammer.Resources
                 case "0x5":
                 case "0x6":
                 case "0x7":
-                    App.AttributeManager.loadPacket(msg.Substring(3), Cmd);
                     break;
-                case "1x1": // gauges programmed serial ID #
-                    App.AttributeManager.setDevice_SN(SafeSubstring(msg,3, 11-3));
-                    App.AttributeManager.setDevice_PCB_Type((short)int.Parse(SafeSubstring(msg, 11, 15-11), System.Globalization.NumberStyles.HexNumber));
+                case "1x1": // gauges programmed serial ID #System.Globalization.NumberStyles.HexNumber));
                     break;
                 case "1x2": // gauges Board ID #
                     App.AttributeManager.setDeviceVersion(msg.Substring(Math.Min(msg.Length, 3)));
@@ -115,10 +112,9 @@ namespace XamarinAttributeProgrammer.Resources
             }
             else
             {
-                message.Append(att.getBacklightColorRed().ToString("X2"));
-                message.Append(att.getBacklightColorGreen().ToString("X2"));
-                message.Append(att.getBacklightColorBlue().ToString("X2"));
-                message.Append(att.getBacklightColorWhite().ToString("X2"));
+                message.Append(att.getQuad0BacklightColorRed().ToString("X2"));
+                message.Append(att.getQuad0BacklightColorGreen().ToString("X2"));
+                message.Append(att.getQuad0BacklightColorBlue().ToString("X2"));
             }
 
             if (needlColor != null)
@@ -133,7 +129,6 @@ namespace XamarinAttributeProgrammer.Resources
                 message.Append(att.getPointerColorRed().ToString("X2"));
                 message.Append(att.getPointerColorGreen().ToString("X2"));
                 message.Append(att.getPointerColorBlue().ToString("X2"));
-                message.Append(att.getPointerColorWhite().ToString("X2"));
             }
 
             return StringToBytes(message.ToString());
@@ -146,14 +141,12 @@ namespace XamarinAttributeProgrammer.Resources
             GaugeAttributes att = App.AttributeManager;
             message.Append("0x4");
             // 53 characters by this point
-            message.Append(att.getBacklightColorRed().ToString("X2"));
-            message.Append(att.getBacklightColorGreen().ToString("X2"));
-            message.Append(att.getBacklightColorBlue().ToString("X2"));
-            message.Append(att.getBacklightColorWhite().ToString("X2"));
+            message.Append(att.getQuad0BacklightColorRed().ToString("X2"));
+            message.Append(att.getQuad0BacklightColorGreen().ToString("X2"));
+            message.Append(att.getQuad0BacklightColorBlue().ToString("X2"));
             message.Append(att.getPointerColorRed().ToString("X2")); ;
             message.Append(att.getPointerColorGreen().ToString("X2"));
             message.Append(att.getPointerColorBlue().ToString("X2"));
-            message.Append(att.getPointerColorWhite().ToString("X2"));
 
             byte[] cmd = StringToBytes(message.ToString());
             return cmd;

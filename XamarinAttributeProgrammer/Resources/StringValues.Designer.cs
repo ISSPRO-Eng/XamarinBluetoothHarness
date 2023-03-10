@@ -67,7 +67,7 @@ namespace XamarinAttributeProgrammer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advance.
+        ///   Looks up a localized string similar to Advanced Curve Options.
         /// </summary>
         public static string advance {
             get {
@@ -343,7 +343,7 @@ namespace XamarinAttributeProgrammer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Driver.
+        ///   Looks up a localized string similar to Output Driver.
         /// </summary>
         public static string driver {
             get {
@@ -379,7 +379,7 @@ namespace XamarinAttributeProgrammer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please do not leave any empty field..
+        ///   Looks up a localized string similar to Please do not leave any empty fields..
         /// </summary>
         public static string errorEmptyField {
             get {
@@ -604,20 +604,11 @@ namespace XamarinAttributeProgrammer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output Value Low.
+        ///   Looks up a localized string similar to Output Value .
         /// </summary>
-        public static string outputBotThres {
+        public static string outputThres {
             get {
-                return ResourceManager.GetString("outputBotThres", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Output Value High.
-        /// </summary>
-        public static string outputTopThres {
-            get {
-                return ResourceManager.GetString("outputTopThres", resourceCulture);
+                return ResourceManager.GetString("outputThres", resourceCulture);
             }
         }
         
@@ -883,20 +874,11 @@ namespace XamarinAttributeProgrammer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warning Value Low.
+        ///   Looks up a localized string similar to Warning Value Percentage.
         /// </summary>
-        public static string warnThresBot {
+        public static string warnThres {
             get {
-                return ResourceManager.GetString("warnThresBot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning Value High.
-        /// </summary>
-        public static string warnThresTop {
-            get {
-                return ResourceManager.GetString("warnThresTop", resourceCulture);
+                return ResourceManager.GetString("warnThres", resourceCulture);
             }
         }
         
